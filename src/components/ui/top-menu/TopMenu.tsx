@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { IoSearchOutline, IoCartOutline } from '@/components/icons'
-
+import { IoSearchOutline, IoCartOutline, RxHamburgerMenu  } from '@/components/icons'
 import { titleFont } from '@/config/fonts'
 import { useUIStore } from '@/store'
 import { usePathname } from 'next/navigation'
@@ -12,7 +11,7 @@ export const TopMenu = () => {
   const pathname = usePathname()
 
   return (
-    <nav className='flex px-5 justify-between items-center w-full bg-white hover:shadow-xl  transition-shadow duration-300  border border-black p-2'>
+    <nav className='flex px-5 justify-between items-center w-full bg-white hover:shadow-xl  transition-shadow duration-300 '>
       {/* Logo */}
       <div>
         <Link href='/'>
@@ -84,7 +83,7 @@ export const TopMenu = () => {
           onClick={openSideMenu}
           className='m-2 p-2 rounded-md transition-all hover:bg-gray-100'
         >
-          Menú
+          <RxHamburgerMenu className='w-5 h-5 inline' />
         </button>
       </div>
     </nav>

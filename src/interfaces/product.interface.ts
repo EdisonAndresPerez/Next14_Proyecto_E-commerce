@@ -1,6 +1,6 @@
 
 export interface Product {
-  id?: string; // Opcional para expansión futura con base de datos
+  id?: string;
   name: string; 
   description: string;
   images: string[];
@@ -8,29 +8,28 @@ export interface Product {
   msrp: number;
   slug: string;
   tags: string[];
-  genre: ValidGenres; // Géneros reales del juego
-  platform: ValidPlatforms; // Plataforma del juego
-  category: ValidCategories; // Para agrupar por consola
+  genre: ValidGenres;
+  platform: ValidPlatforms; 
+  category: ValidCategories; 
 }
 
 // Géneros reales de videojuegos
 export type ValidGenres = 'action'|'adventure'|'sports'|'rpg'|'shooter'|'racing'|'strategy'|'simulation'|'horror'|'platformer'|'puzzle'|'fighting'|'stealth'|'other';
 
 // Plataformas disponibles
-export type ValidPlatforms = 'ps5'|'ps4'|'ps3'|'ps2'|'ps1'|'pc'|'xbox';
+export type ValidPlatforms = 'ps5'|'ps4'|'ps3'|'ps2'|'ps1';
 
 // Categorías para navegación
-export type ValidCategories = 'ps5'|'ps2'|'ps1'|'retro'|'modern';
+export type ValidCategories = 'ps5'|'ps2'|'ps1';
+
+
 
 // ===== INTERFACES PARA COMPONENTES =====
-
-// Props para el grid de productos
 export interface ProductGridProps {
   products: Product[];
   className?: string;
 }
 
-// Props para items individuales de producto
 export interface ProductGridItemProps {
   product: Product;
   showDescription?: boolean;
@@ -38,8 +37,6 @@ export interface ProductGridItemProps {
   showTags?: boolean;
   className?: string;
 }
-
-// Props para filtros de productos
 export interface ProductFilterProps {
   products: Product[];
   onFilterChange: (filteredProducts: Product[]) => void;

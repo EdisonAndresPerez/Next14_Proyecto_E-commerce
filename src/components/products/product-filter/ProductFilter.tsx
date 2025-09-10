@@ -40,7 +40,7 @@ export const ProductFilter = ({
     onFilterChange(filtered);
   };
 
-  const genres: ValidGenres[] = ['ps5', 'ps2', 'ps1', 'action', 'adventure', 'rpg'];
+  const genres: ValidGenres[] = ['action', 'adventure', 'rpg'];
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">

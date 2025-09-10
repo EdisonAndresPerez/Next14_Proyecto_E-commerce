@@ -22,7 +22,8 @@ export {
   FaShoppingCart,
   FaHeart,
   FaStar,
-  FaStarHalfAlt
+  FaStarHalfAlt,
+  FaAddressCard
 } from 'react-icons/fa';
 
 // Iconos de HiIcons (hi) - por si los necesitas
@@ -30,3 +31,13 @@ export {
   HiOutlineShoppingBag,
   HiOutlineHeart
 } from 'react-icons/hi';
+
+// Iconos de RxIcons (rx)
+export { RxHamburgerMenu } from "react-icons/rx";
+
+// Iconos de MdIcons (md) - 
+export { MdVerifiedUser } from "react-icons/md";
+
+// Iconos de MdIcons (ri)
+export { RiShoppingCartFill } from "react-icons/ri";
+import { RiGameLine } from "react-icons/ri";

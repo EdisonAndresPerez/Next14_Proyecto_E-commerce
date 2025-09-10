@@ -1,18 +1,14 @@
 import { Product } from '@/interfaces';
 
-interface SeedProduct extends Product {
-  // Podemos agregar propiedades específicas del seed si es necesario
-}
-
 interface SeedData {
-  products: SeedProduct[]
+  products: Product[]
 }
 
 export const initialData: SeedData = {
   products: [
     // ===== PRODUCTOS PS5 =====
     {
-      name: 'The Last of Us Part II Remastered',
+      name: 'The Last of Us Part  Remastered',
       description: 'Experimenta la aclamada historia de Ellie y Abby en su versión remasterizada para PlayStation 5, con mejoras gráficas, tiempos de carga reducidos y un nuevo modo de juego Sin Retorno.',
       images: [
         '1740176-00-A_0_2000.jpg',
@@ -111,7 +107,7 @@ export const initialData: SeedData = {
         '1703767-00-A_0_2000.jpg',
         '1703767-00-A_1.jpg',
       ],
-      inStock: 4,
+      inStock: 8,
       msrp: 24.99,
       slug: 'god_of_war_ps2',
       tags: ['classic', 'mythology', 'action', 'hack-and-slash'],
@@ -126,7 +122,7 @@ export const initialData: SeedData = {
         '1657891-00-A_0_2000.jpg',
         '1657891-00-A_1.jpg',
       ],
-      inStock: 6,
+      inStock: 8,
       msrp: 29.99,
       slug: 'final_fantasy_x_ps2',
       tags: ['classic', 'jrpg', 'story-rich', 'turn-based'],
@@ -141,7 +137,7 @@ export const initialData: SeedData = {
         '1657914-00-A_0_2000.jpg',
         '1657914-00-A_1.jpg',
       ],
-      inStock: 3,
+      inStock: 8,
       msrp: 22.99,
       slug: 'shadow_of_the_colossus_ps2',
       tags: ['classic', 'artistic', 'boss-battles', 'atmospheric'],
@@ -156,7 +152,7 @@ export const initialData: SeedData = {
         '1657915-00-A_0_2000.jpg',
         '1657915-00-A_1.jpg',
       ],
-      inStock: 4,
+      inStock: 8,
       msrp: 26.99,
       slug: 'metal_gear_solid_3_ps2',
       tags: ['classic', 'stealth', 'tactical', 'story-rich'],
@@ -173,7 +169,7 @@ export const initialData: SeedData = {
         '1657916-00-A_0_2000.jpg',
         '1657916-00-A_1.jpg',
       ],
-      inStock: 3,
+      inStock: 8,
       msrp: 14.99,
       slug: 'final_fantasy_vii_ps1',
       tags: ['classic', 'jrpg', 'legendary', 'turn-based'],
@@ -188,7 +184,7 @@ export const initialData: SeedData = {
         '1657921-00-A_0_2000.jpg',
         '1657921-00-A_1.jpg',
       ],
-      inStock: 2,
+      inStock: 8,
       msrp: 16.99,
       slug: 'metal_gear_solid_ps1',
       tags: ['classic', 'stealth', 'revolutionary', 'tactical'],
@@ -233,7 +229,7 @@ export const initialData: SeedData = {
         '1657933-00-A_0_2000.jpg',
         '1657933-00-A_1.jpg',
       ],
-      inStock: 3,
+      inStock: 8,
       msrp: 15.99,
       slug: 'tekken_3_ps1',
       tags: ['classic', 'fighting', 'competitive', 'arcade'],
