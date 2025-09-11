@@ -30,7 +30,7 @@ export default async function Home({ searchParams }: Props) {
     <>
       <Title
         title='WordGames'
-        subtitle={`${result.totalCount} videojuegos disponibles`}
+        subtitle={`Todos los videojuegos disponibles`}
         className='mb-2'
       />
 

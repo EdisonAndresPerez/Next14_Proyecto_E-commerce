@@ -1,18 +1,56 @@
+"use client"
+
 import { Product } from '@/interfaces'
-import React from 'react'
+import React, { useState } from 'react'
 import { titleFont } from '@/config/fonts'
 import { IoGameController, TfiMoney } from '@/components/icons'
 import { Contador } from '@/components/products/contador/Contador'
+import { useCartStore } from '@/store/cart/cart-store'
 
 
 interface Props {
   product: Product
-  onQuantityChange?: (quantity: number) => void
-  onAddToCart?: () => void
 }
 
+export const ProductDetails = ({ product }: Props) => {
+  const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const addProductToCart = useCartStore(state => state.addProductToCart);
 
-export const ProductDetails = ({ product, onQuantityChange, onAddToCart }: Props) => {
+  const handleAddToCart = () => {
+    if (product.inStock <= 0) return;
+
+    setIsAdding(true);
+
+    // Convertir Product a CartProduct
+    const cartProduct = {
+      id: product.id || product.slug, // Usar slug como fallback si no hay id
+      slug: product.slug,
+      name: product.name,
+      price: product.msrp,
+      quantity: quantity,
+      image: product.images[0] || '', // Primera imagen del array
+      maxStock: product.inStock,
+      platform: product.platform
+    };
+
+    addProductToCart(cartProduct);
+    
+    // Mostrar feedback visual
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 2000);
+
+    // Reset quantity después de agregar
+    setQuantity(1);
+    setIsAdding(false);
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+  };
   return (
        <div className='col-span-1 px-5 bg-white rounded-lg shadow-lg border'>
         
@@ -100,10 +138,19 @@ export const ProductDetails = ({ product, onQuantityChange, onAddToCart }: Props
             maxValue={product.inStock}
             inStock={product.inStock}
             showAddToCart={true}
-            onQuantityChange={onQuantityChange}
-            onAddToCart={onAddToCart}
-            
+            onQuantityChange={handleQuantityChange}
+            onAddToCart={handleAddToCart}
           />
+
+          {/* Toast de éxito */}
+          {showSuccess && (
+            <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>¡Producto agregado al carrito exitosamente!</span>
+            </div>
+          )}
         </div>
       </div>
   )

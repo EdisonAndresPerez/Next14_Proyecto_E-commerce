@@ -13,6 +13,18 @@ export interface Product {
   category: ValidCategories; 
 }
 
+export interface CartProduct {
+  id: string;
+  slug: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  // Campos opcionales útiles para el carrito
+  maxStock?: number;  // Para validar cantidad máxima
+  platform?: ValidPlatforms;  // Para mostrar en el carrito
+}
+
 // Géneros reales de videojuegos
 export type ValidGenres = 'action'|'adventure'|'sports'|'rpg'|'shooter'|'racing'|'strategy'|'simulation'|'horror'|'platformer'|'puzzle'|'fighting'|'stealth'|'other';
 
@@ -46,3 +58,4 @@ export interface ProductFilterProps {
     max: number;
   };
 }
+

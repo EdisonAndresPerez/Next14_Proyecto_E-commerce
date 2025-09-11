@@ -228,13 +228,73 @@ export const initialData: SeedData = {
       description: 'El mejor juego de lucha de la era PlayStation. Combates intensos con los mejores luchadores del mundo.',
       images: [
         'tekken3.png',
-        '1633799-00-A_2.jpg',
+        '1633802-00-A_2.jpg',
       ],
       inStock: 6,
       msrp: 13.99,
       slug: 'tekken_3_ps1',
       tags: ['classic', 'fighting', 'multiplayer', 'arcade'],
       genre: 'fighting',
+      platform: 'ps1',
+      category: 'ps1'
+    },
+    {
+      name: 'Crash Bandicoot 3: Warped - Collector Edition',
+      description: 'El marsupial más famoso de PlayStation en su aventura más épica a través del tiempo y el espacio. Edición de coleccionista.',
+      images: [
+        'crash.png',
+        '1657932-00-A_1.jpg',
+      ],
+      inStock: 3,
+      msrp: 15.99,
+      slug: 'crash_bandicoot_3_collector_ps1',
+      tags: ['classic', 'platformer', 'family-friendly', 'mascot', 'collector'],
+      genre: 'platformer',
+      platform: 'ps1',
+      category: 'ps1'
+    },
+    {
+      name: 'Tekken 3 - Tournament Edition',
+      description: 'El mejor juego de lucha de la era PlayStation. Edición especial con personajes desbloqueados.',
+      images: [
+        'tekken3.png',
+        '1633802-00-A_0_2000.jpg',
+      ],
+      inStock: 4,
+      msrp: 16.99,
+      slug: 'tekken_3_tournament_ps1',
+      tags: ['classic', 'fighting', 'multiplayer', 'arcade', 'tournament'],
+      genre: 'fighting',
+      platform: 'ps1',
+      category: 'ps1'
+    },
+    {
+      name: 'Final Fantasy VII - International Version',
+      description: 'El JRPG que cambió todo. Versión internacional con contenido adicional y mejoras.',
+      images: [
+        'finalFantasyvii.png',
+        '1657916-00-A_1.jpg',
+      ],
+      inStock: 6,
+      msrp: 17.99,
+      slug: 'final_fantasy_vii_international_ps1',
+      tags: ['classic', 'jrpg', 'legendary', 'turn-based', 'international'],
+      genre: 'rpg',
+      platform: 'ps1',
+      category: 'ps1'
+    },
+    {
+      name: 'Resident Evil 2 - Dual Shock Version',
+      description: 'Survival horror en su máxima expresión. Versión mejorada con soporte para DualShock.',
+      images: [
+        '1657931-00-A_0_2000.jpg',
+        '1657931-00-A_1.jpg',
+      ],
+      inStock: 5,
+      msrp: 21.99,
+      slug: 'resident_evil_2_dualshock_ps1',
+      tags: ['classic', 'survival-horror', 'zombies', 'atmospheric', 'enhanced'],
+      genre: 'horror',
       platform: 'ps1',
       category: 'ps1'
     }

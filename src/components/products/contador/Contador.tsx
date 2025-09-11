@@ -50,6 +50,7 @@ export const Contador = ({
   }
 
   const handleAddToCart = () => {
+    console.log('agregado')
     onAddToCart?.()
   }
 

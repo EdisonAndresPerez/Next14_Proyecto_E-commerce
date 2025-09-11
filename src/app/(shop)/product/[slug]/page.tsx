@@ -1,10 +1,12 @@
 'use client'
 
 import { notFound } from 'next/navigation'
-import { initialData } from '@/seed/seed'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ProductSlideshow } from '@/components'
 import { ProductDetails } from '@/components'
+import { getProductBySlug } from '@/actions'
+import { Product } from '@/interfaces'
+
 interface Props {
   params: {
     slug: string
@@ -12,10 +14,38 @@ interface Props {
 }
 
 export default function ProductPage({ params }: Readonly<Props>) {
-  const [count, setCount] = useState(1)
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const { slug } = params
-  const product = initialData.products.find(product => product.slug === slug)
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const result = await getProductBySlug(slug)
+        if (result.ok && result.product) {
+          setProduct(result.product)
+        } else {
+          setProduct(null)
+        }
+      } catch (error) {
+        console.error('Error fetching product:', error)
+        setProduct(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProduct()
+  }, [slug])
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    )
+  }
 
   if (!product) {
     notFound()
@@ -34,16 +64,9 @@ export default function ProductPage({ params }: Readonly<Props>) {
       </div>
 
       {/* detalles  */}
-    <ProductDetails
-      product={product}
-      onQuantityChange={setCount}
-      onAddToCart={() => console.log('Agregar al carrito')}
-    />
-
-
-
-
-   
+      <ProductDetails
+        product={product}
+      />
     </div>
   )
 }

@@ -12,13 +12,14 @@ interface Props {
 export const Pagination = ({ totalPages }: Props) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  
   const currentPage = Number(searchParams.get('page')) || 1
 
+
   const allPages = GeneratePaginationNumber(currentPage, totalPages)
-  console.log({ allPages })
 
-
-  console.log({ pathname, searchParams, currentPage, totalPages })
+  console.log({ pathname, searchParams, currentPage, totalPages, allPages })
 
   const createPageUrl = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -40,28 +41,6 @@ export const Pagination = ({ totalPages }: Props) => {
     return `${pathname}?${params.toString()}`
   }
 
-  const generatePages = () => {
-    const pages = []
-    
-    if (currentPage > 2) {
-      pages.push(1)
-      if (currentPage > 3) pages.push('...')
-    }
-    
-    for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
-      pages.push(i)
-    }
-    
-    if (currentPage < totalPages - 1) {
-      if (currentPage < totalPages - 2) pages.push('...')
-      pages.push(totalPages)
-    }
-    
-    return pages
-  }
-
-  const pages = generatePages()
-
   return (
     <div className='flex justify-center mt-8 mb-32'>
       <nav aria-label='Page navigation'>
@@ -80,7 +59,7 @@ export const Pagination = ({ totalPages }: Props) => {
             </Link>
           </li>
 
-          {/* Page Numbers */}
+          {/* Page Numbers - Usar solo allPages de tu utilidad */}
           {allPages.map((page, index) => (
             <li key={`page-${index}`} className='page-item'>
               <Link

@@ -1,4 +1,4 @@
-import { ProductGrid, Title } from '@/components'
+import { ProductGrid, Title, Pagination } from '@/components'
 import { getFilteredProducts } from '@/actions'
 import { notFound } from 'next/navigation'
 
@@ -34,7 +34,7 @@ const categoryLabels: Record<string, { title: string; subtitle: string }> = {
   },
   ps1: {
     title: 'Clásicos de PS1',
-    subtitle: 'Las joyas de la PlayStation original'
+    subtitle: 'Los mejores juegos de la PlayStation 1'
   }
 }
 
@@ -63,7 +63,10 @@ export default async function CategoryPage({ params, searchParams }: Readonly<Pr
     : { genre: id, page }
 
   // Obtener productos filtrados desde la base de datos
-  const result = await getFilteredProducts(filters)
+  const result = await getFilteredProducts({
+    ...filters,
+    take: 4  // ← Cambiar a 4 productos por página para ver paginación
+  })
 
   if (!result.ok) {
     return (
@@ -80,7 +83,7 @@ export default async function CategoryPage({ params, searchParams }: Readonly<Pr
     <>
       <Title 
         title={title} 
-        subtitle={`${subtitle} - ${result.totalCount} productos disponibles`} 
+        subtitle={`${subtitle}`}
         className='mb-2' 
       />
 
@@ -91,6 +94,8 @@ export default async function CategoryPage({ params, searchParams }: Readonly<Pr
         Página {result.currentPage} de {result.totalPages} 
         | Mostrando {result.products.length} de {result.totalCount} productos
       </div>
+
+      <Pagination totalPages={result.totalPages} />
     </>
   )
 }
