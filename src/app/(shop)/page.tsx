@@ -1,5 +1,7 @@
 import { getPaginatedProductsWithImages } from '@/actions'
-import { ProductGrid, Title } from '@/components'
+import { ProductGrid, Title, Pagination } from '@/components'
+
+
 
 export default async function Home() {
   // Prueba con diferentes valores para evaluar tu take
@@ -33,6 +35,10 @@ export default async function Home() {
         Página {result.currentPage} de {result.totalPages} 
         | Mostrando {result.products.length} de {result.totalCount} productos
       </div>
+
+      <Pagination totalPages={result.totalPages} />
+
+
     </>
   )
 }

@@ -8,6 +8,10 @@ export * from './products/slideShow/ProductSlideshow';
 export * from './products/contador/Contador';
 export * from './products/product-details/ProductDetails';
 
+export * from './ui/pagination/Pagination';
+
+
+
 export * from './ui/not-found/PageNotFound';
 export * from './ui/sidebar/Sidebar';
 export * from './ui/title/Title';

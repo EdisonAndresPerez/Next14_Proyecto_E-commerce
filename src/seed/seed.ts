@@ -126,7 +126,7 @@ export const initialData: SeedData = {
       msrp: 29.99,
       slug: 'final_fantasy_x_ps2',
       tags: ['classic', 'jrpg', 'story-rich', 'turn-based'],
-      genre: 'rpg', // Género real del juego
+      genre: 'rpg', 
       platform: 'ps2',
       category: 'ps2'
     },
@@ -162,21 +162,7 @@ export const initialData: SeedData = {
     },
 
     // ===== PRODUCTOS PS1 =====
-    {
-      name: 'Final Fantasy VII',
-      description: 'El JRPG que cambió todo. Acompaña a Cloud y sus aliados en su lucha contra Shinra y Sephiroth en Midgar.',
-      images: [
-        '1657916-00-A_0_2000.jpg',
-        '1657916-00-A_1.jpg',
-      ],
-      inStock: 8,
-      msrp: 14.99,
-      slug: 'final_fantasy_vii_ps1',
-      tags: ['classic', 'jrpg', 'legendary', 'turn-based'],
-      genre: 'rpg', // Género real del juego
-      platform: 'ps1',
-      category: 'ps1'
-    },
+  
     {
       name: 'Metal Gear Solid',
       description: 'El juego que revolucionó el género stealth. Infiltrate en Shadow Moses Island como Solid Snake.',
@@ -211,29 +197,44 @@ export const initialData: SeedData = {
       name: 'Crash Bandicoot 3: Warped',
       description: 'El marsupial más famoso de PlayStation en su aventura más épica a través del tiempo y el espacio.',
       images: [
-        '1657932-00-A_0_2000.jpg',
+        'crash.png',
         '1657932-00-A_1.jpg',
       ],
       inStock: 5,
       msrp: 12.99,
       slug: 'crash_bandicoot_3_ps1',
       tags: ['classic', 'platformer', 'family-friendly', 'mascot'],
-      genre: 'platformer', // Género real del juego
+      genre: 'platformer',
+      platform: 'ps1',
+      category: 'ps1'
+    },
+    {
+      name: 'Final Fantasy VII',
+      description: 'El JRPG que cambió todo. Acompaña a Cloud y sus aliados en su lucha contra Shinra y Sephiroth en Midgar.',
+      images: [
+        'finalFantasyvii.png',
+        '1657916-00-A_1.jpg',
+      ],
+      inStock: 8,
+      msrp: 14.99,
+      slug: 'final_fantasy_vii_ps1',
+      tags: ['classic', 'jrpg', 'legendary', 'turn-based'],
+      genre: 'rpg',
       platform: 'ps1',
       category: 'ps1'
     },
     {
       name: 'Tekken 3',
-      description: 'El rey de los juegos de lucha en PlayStation. Domina el Iron Fist Tournament con tu luchador favorito.',
+      description: 'El mejor juego de lucha de la era PlayStation. Combates intensos con los mejores luchadores del mundo.',
       images: [
-        '1657933-00-A_0_2000.jpg',
-        '1657933-00-A_1.jpg',
+        'tekken3.png',
+        '1633799-00-A_2.jpg',
       ],
-      inStock: 8,
-      msrp: 15.99,
+      inStock: 6,
+      msrp: 13.99,
       slug: 'tekken_3_ps1',
-      tags: ['classic', 'fighting', 'competitive', 'arcade'],
-      genre: 'fighting', // Género real del juego
+      tags: ['classic', 'fighting', 'multiplayer', 'arcade'],
+      genre: 'fighting',
       platform: 'ps1',
       category: 'ps1'
     }
