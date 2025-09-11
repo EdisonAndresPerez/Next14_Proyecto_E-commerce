@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces';
+import { Product } from '../interfaces/product.interface';
 
 interface SeedData {
   products: Product[]
