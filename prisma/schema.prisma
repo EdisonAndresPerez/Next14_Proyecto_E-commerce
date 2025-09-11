@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== ENUMS =====
+enum Genre {
+  action
+  adventure
+  sports
+  rpg
+  shooter
+  racing
+  strategy
+  simulation
+  horror
+  platformer
+  puzzle
+  fighting
+  stealth
+  other
+}
+
+enum Platform {
+  ps5
+  ps4
+  ps3
+  ps2
+  ps1
+}
+
+enum Category {
+  ps5
+  ps2
+  ps1
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum OrderStatus {
+  pending
+  paid
+  shipped
+  delivered
+  cancelled
+}
+
+// ===== MODELS =====
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(user)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  addresses Address[]
+  orders    Order[]
+
+  @@map("users")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  images      String[] // Array de strings para las imágenes
+  inStock     Int
+  msrp        Float    // Precio
+  slug        String   @unique
+  tags        String[] // Array de tags
+  genre       Genre
+  platform    Platform
+  category    Category
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+
+  @@map("products")
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  firstName    String
+  lastName     String
+  address      String
+  address2     String?
+  postalCode   String
+  city         String
+  country      String
+  phone        String
+  isDefault    Boolean @default(false)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders Order[]
+
+  @@map("addresses")
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String?    @unique // Opcional para carritos de invitados
+  sessionId String?    @unique // Para carritos de sesión sin usuario
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relaciones
+  user  User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId]) // Un producto solo puede estar una vez por carrito
+  @@map("cart_items")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  addressId     String
+  status        OrderStatus @default(pending)
+  subtotal      Float
+  tax           Float
+  total         Float
+  itemsInOrder  Int         // Número total de artículos
+  isPaid        Boolean     @default(false)
+  paidAt        DateTime?
+  transactionId String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relaciones
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address  Address     @relation(fields: [addressId], references: [id])
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float    // Precio al momento de la compra
+  createdAt DateTime @default(now())
+
+  // Relaciones
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
