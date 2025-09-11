@@ -1,13 +1,19 @@
 import { getPaginatedProductsWithImages } from '@/actions'
 import { ProductGrid, Title, Pagination } from '@/components'
 
+interface Props {
+  searchParams: {
+    page?: string;
+  }
+}
 
-
-export default async function Home() {
-  // Prueba con diferentes valores para evaluar tu take
+export default async function Home({ searchParams }: Props) {
+  const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  
+  // Obtener productos de la página solicitada
   const result = await getPaginatedProductsWithImages({ 
-    page: 1, 
-    take: 12  // Puedes cambiar este número para probar
+    page: page, 
+    take: 12  // 12 productos por página
   });
 
   console.log('🏠 Resultado en Home:', result);
@@ -37,8 +43,6 @@ export default async function Home() {
       </div>
 
       <Pagination totalPages={result.totalPages} />
-
-
     </>
   )
 }
