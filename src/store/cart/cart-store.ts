@@ -3,7 +3,6 @@ import { persist } from 'zustand/middleware'
 import { CartProduct } from '@/interfaces'
 
 interface CartState {
-  // Estado
   cart: CartProduct[]
 
   getTotalItems: () => number
@@ -12,6 +11,7 @@ interface CartState {
     tax: number
     total: number
     itemsInCart: number
+    products: number
   }
 
   // Actions
@@ -22,6 +22,9 @@ interface CartState {
 }
 
 export const useCartStore = create<CartState>()(
+  
+  
+  
   persist(
     (set, get) => ({
       cart: [],
@@ -32,8 +35,14 @@ export const useCartStore = create<CartState>()(
         return cart.reduce((total, item) => total + item.quantity, 0)
       },
 
+      
+
+
+
       getSummaryInformation: () => {
         const { cart } = get()
+
+          const products = cart.length
 
         const subTotal = cart.reduce(
           (subTotal, product) => product.quantity * product.price + subTotal,
@@ -51,7 +60,8 @@ export const useCartStore = create<CartState>()(
           subTotal,
           tax,
           total,
-          itemsInCart
+          itemsInCart,
+          products
         }
       },
 
@@ -63,22 +73,21 @@ export const useCartStore = create<CartState>()(
 
         if (!productInCart) {
           set({ cart: [...cart, product] })
-          return
-        }
-
-        const maxStock = product.maxStock || 99
-        if (productInCart.quantity >= maxStock) {
-          return
-        }
-
-        const updatedCartProducts = cart.map(item => {
-          if (item.id === product.id) {
-            return { ...item, quantity: item.quantity + product.quantity }
+        } else {
+          const maxStock = product.maxStock || 99
+          if (productInCart.quantity >= maxStock) {
+            return
           }
-          return item
-        })
 
-        set({ cart: updatedCartProducts })
+          const updatedCartProducts = cart.map(item => {
+            if (item.id === product.id) {
+              return { ...item, quantity: item.quantity + product.quantity }
+            }
+            return item
+          })
+
+          set({ cart: updatedCartProducts })
+        }
       },
 
       updateProductQuantity: (product: CartProduct, quantity: number) => {

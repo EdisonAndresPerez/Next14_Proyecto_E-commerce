@@ -1,5 +1,7 @@
 'use client'
 
+
+import { useEffect, useState  } from 'react'
 import Link from 'next/link'
 import { IoSearchOutline, IoCartOutline, RxHamburgerMenu  } from '@/components/icons'
 import { titleFont } from '@/config/fonts'
@@ -8,9 +10,20 @@ import { useCartStore } from '@/store/cart/cart-store'
 import { usePathname } from 'next/navigation'
 
 export const TopMenu = () => {
+
   const openSideMenu = useUIStore(state => state.openSideMenu)
-  const getTotalItems = useCartStore(state => state.getTotalItems)
-  const totalItems = getTotalItems()
+
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    setLoaded(true)
+  },[])
+
+
+  const totalItems = useCartStore(state => state.cart.reduce(
+  (total, item) => total + item.quantity, 0
+))
+
   const pathname = usePathname()
 
   return (
@@ -75,7 +88,7 @@ export const TopMenu = () => {
 
         <Link href='/cart' className='mx-2'>
           <div className='relative'>
-            {totalItems > 0 && (
+            { ( loaded  && totalItems > 0  ) && (
               <span className='absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white'>
                 {totalItems}
               </span>

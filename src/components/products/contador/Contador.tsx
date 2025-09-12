@@ -1,7 +1,6 @@
 'use client'
 
-
-import { useCartStore } from '@/store/index'
+import { useTemporaryQuantityStore } from '@/store/ui/ui-store'
 import {RiShoppingCartFill} from '@/components/icons'
 
 interface Props {
@@ -14,6 +13,9 @@ interface Props {
   onAddToCart?: () => void
   className?: string
   readOnly?: boolean
+  // Nuevo prop para usar valor externo en lugar del store temporal
+  useExternalValue?: boolean
+  currentValue?: number
 }
 
 export const Contador = ({
@@ -25,27 +27,46 @@ export const Contador = ({
   inStock = 0,
   onAddToCart,
   className = '',
-  readOnly = false
+  readOnly = false,
+  useExternalValue = false,
+  currentValue
 }: Props) => {
 
 
-  const { updateQuantity, getProductQuantity } = useCartStore()
+  const { updateQuantity, getQuantity } = useTemporaryQuantityStore()
 
-  const currentQuantity = getProductQuantity(productId) || initialValue
+  // Usar valor externo si se especifica, sino usar el store temporal
+  const currentQuantity = useExternalValue 
+    ? (currentValue || initialValue)
+    : getQuantity(productId)
 
   const handleSumar = () => {
     if (currentQuantity < maxValue && currentQuantity < inStock) {
       const newCount = currentQuantity + 1
-      updateQuantity(productId, newCount)
-      onQuantityChange?.(newCount)
+      
+      // Si usa valor externo, solo notificar al padre
+      if (useExternalValue) {
+        onQuantityChange?.(newCount)
+      } else {
+        // Si usa store temporal, actualizar y notificar
+        updateQuantity(productId, newCount)
+        onQuantityChange?.(newCount)
+      }
     }
   }
 
   const handleRestar = () => {
     if (currentQuantity > 1) {
       const newCount = currentQuantity - 1
-      updateQuantity(productId, newCount)
-      onQuantityChange?.(newCount)
+      
+      // Si usa valor externo, solo notificar al padre
+      if (useExternalValue) {
+        onQuantityChange?.(newCount)
+      } else {
+        // Si usa store temporal, actualizar y notificar
+        updateQuantity(productId, newCount)
+        onQuantityChange?.(newCount)
+      }
     }
   }
 

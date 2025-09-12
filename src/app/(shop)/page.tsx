@@ -13,10 +13,9 @@ export default async function Home({ searchParams }: Props) {
   // Obtener productos de la página solicitada
   const result = await getPaginatedProductsWithImages({ 
     page: page, 
-    take: 12  // 12 productos por página
+    take: 12 
   });
 
-  console.log('🏠 Resultado en Home:', result);
 
   if (!result.ok) {
     return (

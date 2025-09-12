@@ -6,6 +6,7 @@ import { titleFont } from '@/config/fonts'
 import { IoGameController, TfiMoney } from '@/components/icons'
 import { Contador } from '@/components/products/contador/Contador'
 import { useCartStore } from '@/store/cart/cart-store'
+import { useTemporaryQuantityStore } from '@/store/ui/ui-store'
 
 
 interface Props {
@@ -13,29 +14,34 @@ interface Props {
 }
 
 export const ProductDetails = ({ product }: Props) => {
-  const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const addProductToCart = useCartStore(state => state.addProductToCart);
+  const { getQuantity, clearQuantity } = useTemporaryQuantityStore();
+
+  // Obtener la cantidad actual del store temporal
+  const currentQuantity = getQuantity(product.slug);
 
   const handleAddToCart = () => {
     if (product.inStock <= 0) return;
 
     setIsAdding(true);
 
-    // Convertir Product a CartProduct
+    // Convertir Product a CartProduct usando la cantidad del store temporal
     const cartProduct = {
       id: product.id || product.slug, // Usar slug como fallback si no hay id
       slug: product.slug,
       name: product.name,
       price: product.msrp,
-      quantity: quantity,
+      quantity: currentQuantity, // Usar cantidad del store temporal
       image: product.images[0] || '', // Primera imagen del array
       maxStock: product.inStock,
       platform: product.platform
     };
 
     addProductToCart(cartProduct);
+
+    clearQuantity(product.slug);
     
     // Mostrar feedback visual
     setShowSuccess(true);
@@ -43,13 +49,11 @@ export const ProductDetails = ({ product }: Props) => {
       setShowSuccess(false);
     }, 2000);
 
-    // Reset quantity después de agregar
-    setQuantity(1);
     setIsAdding(false);
   };
 
   const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
+    console.log(`Cantidad cambiada a: ${newQuantity}`);
   };
   return (
        <div className='col-span-1 px-5 bg-white rounded-lg shadow-lg border'>

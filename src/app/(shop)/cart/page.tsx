@@ -1,30 +1,24 @@
 'use client'
 
 import { FaCartShopping } from 'react-icons/fa6'
-import { TfiMoney } from '@/components/icons'
-import { Contador, Title } from '@/components'
+import { Title } from '@/components'
 import Link from 'next/link'
-import { initialData } from '@/seed/seed'
-import Image from 'next/image'
+import ProductsInCart from './ui/ProductsInCart'
+import { useCartStore } from '@/store/cart/cart-store'
 import { redirect } from 'next/navigation'
-
-
-
-const productsInCart = [
-  { ...initialData.products[0], quantity: 1 },
-  { ...initialData.products[10], quantity: 1 },
-  { ...initialData.products[3], quantity: 1 }
-]
+import { useIsMounted } from './hook/useIsMounted'
 
 export default function CartPage() {
-  const handleQuantityChange = (productSlug: string, newQuantity: number) => {
-    console.log(`Producto: ${productSlug}, Nueva cantidad: ${newQuantity}`)
-    // Aquí actualizarías el estado del carrito
+  const mounted = useIsMounted()
+
+  const { cart, getSummaryInformation } = useCartStore()
+  const { subTotal, tax, total, itemsInCart, products } = getSummaryInformation()
+
+  if (!mounted) return <p>Cargando...</p>
+
+  if (cart.length === 0) {
+    redirect('/empty')
   }
-
-
-//redirect('/empty') 
-
 
   return (
     <div className='max-w-7xl mx-auto px-4 py-8 '>
@@ -51,49 +45,7 @@ export default function CartPage() {
 
           {/* Lista de productos */}
           <div className='space-y-6'>
-            {productsInCart.map(product => (
-              <div
-                key={product.slug}
-                className='flex gap-4 p-4 border rounded-lg shadow-xl'
-              >
-                <Image
-                  src={`/products/${product.images[0]}`}
-                  alt={product.name}
-                  width={100}
-                  height={100}
-                  style={{
-                    width: '200px',
-                    height: '200px'
-                  }}
-                  className='rounded object-cover'
-                />
-
-                <div className='flex-1 '>
-                  <h3 className='font-semibold text-lg mb-2'>{product.name}</h3>
-                  <div className='flex items-center gap-2 mb-4'>
-                    <TfiMoney className='text-green-600 text-xl' />
-                    <p className='text-green-600 font-bold text-xl'>
-                      ${product.msrp}
-                    </p>
-                  </div>
-
-                  <Contador
-                    productId={product.slug}
-                    initialValue={product.quantity}
-                    maxValue={product.inStock}
-                    onQuantityChange={quantity =>
-                      handleQuantityChange(product.slug, quantity)
-                    }
-                    showAddToCart={false}
-                    className='max-w-md'
-                  />
-
-                  <button className='mt-4 text-red-500 hover:text-red-700 text-sm underline'>
-                    Eliminar
-                  </button>
-                </div>
-              </div>
-            ))}
+            <ProductsInCart />
           </div>
         </div>
 
@@ -105,28 +57,28 @@ export default function CartPage() {
             <div className='space-y-2 mb-4'>
               <div className='flex justify-between'>
                 <span>No de productos:</span>
-                <span>3 Productos</span>
+                <span>{itemsInCart} Productos</span>
+              </div>
+              <div className='flex justify-between'>
+                <span>productos:</span>
+                <span>{products} Productos</span>
+              </div>
+              <div className='flex justify-between'>
+                <span>Subtotal:</span>
+                <span>${subTotal.toFixed(2)}</span>
+              </div>
+              <div className='flex justify-between'>
+                <span>Impuestos (15%):</span>
+                <span>${tax.toFixed(2)}</span>
               </div>
               <div className='flex justify-between'>
                 <span>Envío:</span>
                 <span>Gratis</span>
               </div>
-              <div className='flex justify-between'>
-                <span>Iva:</span>
-                <span>15%</span>
-              </div>
               <hr />
               <div className='flex justify-between font-bold text-lg'>
                 <span>Total:</span>
-                <span>
-                  $
-                  {productsInCart
-                    .reduce(
-                      (sum, product) => sum + product.msrp * product.quantity,
-                      0
-                    )
-                    .toFixed(2)}
-                </span>
+                <span>${total.toFixed(2)}</span>
               </div>
             </div>
             <div className='flex justify-center text-center'>
@@ -139,7 +91,6 @@ export default function CartPage() {
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   )

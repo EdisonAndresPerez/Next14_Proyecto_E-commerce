@@ -14,31 +14,31 @@ export const useUIStore = create<State>()(set => ({
   closeSideMenu: () => set({ isSideMenuOpen: false })
 }))
 
-interface CartProduct {
-  id: string
-  name: string
-  quantity: number
-}
-
-interface CartState {
-  products: CartProduct[]
-  addProduct: (product: CartProduct) => void
+// Store separado para manejar cantidades temporales en los contadores
+interface TemporaryQuantityState {
+  quantities: Record<string, number>
   updateQuantity: (id: string, quantity: number) => void
-  getProductQuantity: (id: string) => number
+  getQuantity: (id: string) => number
+  clearQuantity: (id: string) => void
 }
 
-export const useCartStore = create<CartState>()((set, get) => ({
-  products: [],
-  addProduct: (product: CartProduct) =>
-    set(state => ({
-      products: [...state.products, product]
-    })),
+export const useTemporaryQuantityStore = create<TemporaryQuantityState>()((set, get) => ({
+  quantities: {},
+  
   updateQuantity: (id: string, quantity: number) =>
     set(state => ({
-      products: state.products.map(p => (p.id === id ? { ...p, quantity } : p))
+      quantities: { ...state.quantities, [id]: quantity }
     })),
-  getProductQuantity: (id: string) => {
-    const product = get().products.find(p => p.id === id)
-    return product ? product.quantity : 0
-  }
+    
+  getQuantity: (id: string) => {
+    const quantities = get().quantities
+    return quantities[id] || 1 // Por defecto 1
+  },
+  
+  clearQuantity: (id: string) =>
+    set(state => {
+      const newQuantities = { ...state.quantities }
+      delete newQuantities[id]
+      return { quantities: newQuantities }
+    })
 }))
