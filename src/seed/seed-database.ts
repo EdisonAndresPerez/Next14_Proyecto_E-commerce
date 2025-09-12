@@ -1,5 +1,6 @@
 import { prisma } from '../lib/prisma'
 import { initialData } from './seed'
+import { seedUsers } from './seed-users-database'
 
 async function main() {
   try {
@@ -52,6 +53,15 @@ async function main() {
       });
       
       console.log(`✅ Producto creado: ${product.name}`);
+    }
+    
+    // 3. Crear usuarios
+    console.log('👥 Insertando usuarios...');
+    const usersResult = await seedUsers();
+    if (usersResult.ok) {
+      console.log('✅ Usuarios creados exitosamente');
+    } else {
+      console.error('❌ Error creando usuarios:', usersResult.message);
     }
     
     console.log('🎉 Seed ejecutado correctamente');
