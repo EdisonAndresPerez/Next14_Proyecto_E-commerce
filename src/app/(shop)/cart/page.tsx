@@ -7,6 +7,7 @@ import ProductsInCart from './ui/ProductsInCart'
 import { useCartStore } from '@/store/cart/cart-store'
 import { redirect } from 'next/navigation'
 import { useIsMounted } from './hook/useIsMounted'
+import ProductsSummary from './ui/ProductsSummary'
 
 export default function CartPage() {
   const mounted = useIsMounted()
@@ -21,6 +22,8 @@ export default function CartPage() {
   }
 
   return (
+
+
     <div className='max-w-7xl mx-auto px-4 py-8 '>
       <div className='flex items-center gap-4 mb-6 '>
         <Title title='Mis Compras' showIcon={false} className='mb-0' />
@@ -29,6 +32,7 @@ export default function CartPage() {
       <hr className='mb-6 bg-slate-950 h-1 border-0' />
 
       <div className='grid grid-cols-2 lg:grid-cols-3 gap-10'>
+
         {/* Carrito - Items */}
         <div className='lg:col-span-2'>
           <div className='flex flex-col mt-5 mb-8'>
@@ -49,47 +53,14 @@ export default function CartPage() {
           </div>
         </div>
 
+        
         {/* Resumen del pedido */}
         <div className='lg:col-span-1'>
-          <div className='bg-gray-50 rounded-xl shadow-xl p-7 mt-20'>
-            <h3 className='text-xl font-semibold mb-4'>Resumen del pedido</h3>
 
-            <div className='space-y-2 mb-4'>
-              <div className='flex justify-between'>
-                <span>No de productos:</span>
-                <span>{itemsInCart} Productos</span>
-              </div>
-              <div className='flex justify-between'>
-                <span>productos:</span>
-                <span>{products} Productos</span>
-              </div>
-              <div className='flex justify-between'>
-                <span>Subtotal:</span>
-                <span>${subTotal.toFixed(2)}</span>
-              </div>
-              <div className='flex justify-between'>
-                <span>Impuestos (15%):</span>
-                <span>${tax.toFixed(2)}</span>
-              </div>
-              <div className='flex justify-between'>
-                <span>Envío:</span>
-                <span>Gratis</span>
-              </div>
-              <hr />
-              <div className='flex justify-between font-bold text-lg'>
-                <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-            </div>
-            <div className='flex justify-center text-center'>
-              <Link
-                href='/checkout/address'
-                className='w-full bg-blue-600 text-white p-4 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors mx-auto'
-              >
-                Proceder al pago
-              </Link>
-            </div>
-          </div>
+        <ProductsSummary/>
+
+
+
         </div>
       </div>
     </div>

@@ -22,34 +22,26 @@ interface CartState {
 }
 
 export const useCartStore = create<CartState>()(
-  
-  
-  
   persist(
     (set, get) => ({
       cart: [],
 
-      // Getters
       getTotalItems: () => {
         const { cart } = get()
         return cart.reduce((total, item) => total + item.quantity, 0)
       },
 
-      
-
-
-
       getSummaryInformation: () => {
         const { cart } = get()
 
-          const products = cart.length
+        const products = cart.length
 
         const subTotal = cart.reduce(
           (subTotal, product) => product.quantity * product.price + subTotal,
           0
         )
 
-        const tax = subTotal * 0.15 // 15% de impuesto
+        const tax = subTotal * 0.15
         const total = subTotal + tax
         const itemsInCart = cart.reduce(
           (total, item) => total + item.quantity,
@@ -65,7 +57,6 @@ export const useCartStore = create<CartState>()(
         }
       },
 
-      // Actions
       addProductToCart: (product: CartProduct) => {
         const { cart } = get()
 
