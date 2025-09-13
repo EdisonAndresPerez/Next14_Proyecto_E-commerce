@@ -14,6 +14,7 @@ import {
 } from '@/components/icons'
 
 import { useUIStore } from '@/store'
+import logout from '@/actions/auth/logout'
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore(state => state.isSideMenuOpen)
@@ -88,6 +89,7 @@ export const Sidebar = () => {
 
         <Link
           href='/'
+          onClick={ () => logout()}
           className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
         >
           <IoLogOutOutline size={30} />
