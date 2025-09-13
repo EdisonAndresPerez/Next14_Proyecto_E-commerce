@@ -11,6 +11,7 @@ export * from './products/product-details/ProductDetails';
 export * from './ui/pagination/Pagination';
 
 
+export * from './provider/Provider'
 
 export * from './ui/not-found/PageNotFound';
 export * from './ui/sidebar/Sidebar';
