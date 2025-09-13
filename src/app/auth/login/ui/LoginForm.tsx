@@ -1,20 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/actions';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+
+  const router = useRouter();
+
   const [state, dispatch] = useFormState(authenticate, undefined);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log({ state });
+
+  useEffect(() => {
+    if (state === 'Success') {
+      console.log('✅ Login exitoso, redirigiendo...');
+      router.push('/');
+    }
+  }, [state, router]);
 
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true);
     
-    // Simular tiempo de espera de 3 segundos
     await new Promise(resolve => setTimeout(resolve, 3000));
     
     dispatch(formData);
@@ -42,13 +51,13 @@ export default function LoginForm() {
       />
 
       {/* Mostrar mensaje de error */}
-      {state && (
+      {state && state !== 'Success' && (
         <div className="flex items-center gap-2 mb-5 p-3 bg-red-100 border border-red-300 rounded">
           <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
           <p className="text-sm text-red-600">
-            {state === 'Invalid credentials.' ? 'Las credenciales no son correctas' : state}
+            {state === 'CredentialsSignin' ? 'Las credenciales no son correctas' : 'Error al iniciar sesión'}
           </p>
         </div>
       )}
