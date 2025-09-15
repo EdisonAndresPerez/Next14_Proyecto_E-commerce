@@ -10,7 +10,7 @@ type FormInputs = {
 }
 
 export default function RegisterForm() {
-  const { register, handleSubmit } = useForm<FormInputs>()
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>()
 
   const onSubmit: SubmitHandler<FormInputs> = async data => {
     const { name, email, password } = data
@@ -19,6 +19,15 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
+
+    {
+       errors.name?.type === 'required' &&(
+         <span className='text-red-500'>El nombre es obligatorio</span>
+       )
+    }
+
+
+
       <label htmlFor='email'>Nombre completo</label>
       <input
         autoFocus
