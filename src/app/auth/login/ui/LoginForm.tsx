@@ -4,11 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 import { authenticate } from '@/actions';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function LoginForm() {
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [state, dispatch] = useFormState(authenticate, undefined);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,9 +18,14 @@ export default function LoginForm() {
   useEffect(() => {
     if (state === 'Success') {
       console.log('✅ Login exitoso, redirigiendo...');
-      router.push('/');
+      
+    
+      const redirectTo = searchParams.get('redirectTo') || '/';
+      
+      console.log('Redirigiendo a:', redirectTo);
+      router.push(redirectTo);
     }
-  }, [state, router]);
+  }, [state, router, searchParams]);
 
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true);
