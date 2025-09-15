@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import Link from 'next/link'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
@@ -10,7 +11,11 @@ type FormInputs = {
 }
 
 export default function RegisterForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormInputs>()
 
   const onSubmit: SubmitHandler<FormInputs> = async data => {
     const { name, email, password } = data
@@ -19,26 +24,31 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
+      {/* 
+      {
+      errors.name?.type === 'required' &&(
+        <span className='text-red-500'>El nombre es obligatorio</span>
+      )
+   }
 
-    {
-       errors.name?.type === 'required' &&(
-         <span className='text-red-500'>El nombre es obligatorio</span>
-       )
-    }
-
-
+  
+  */}
 
       <label htmlFor='email'>Nombre completo</label>
       <input
         autoFocus
-        className='px-5 py-2 border bg-gray-200 rounded mb-5'
+        className={clsx('px-5 py-2 border bg-gray-200 rounded mb-5', {
+          'border-red-500': errors.name
+        })}
         type='text'
         {...register('name', { required: true })}
       />
 
       <label htmlFor='email'>Correo electrónico</label>
       <input
-        className='px-5 py-2 border bg-gray-200 rounded mb-5'
+        className={clsx('px-5 py-2 border bg-gray-200 rounded mb-5', {
+          'border-red-500': errors.email
+        })}
         type='email'
         {...register('email', {
           required: 'El correo es obligatorio',
@@ -51,9 +61,17 @@ export default function RegisterForm() {
 
       <label htmlFor='email'>Contraseña</label>
       <input
-        className='px-5 py-2 border bg-gray-200 rounded mb-5'
+        className={clsx('px-5 py-2 border bg-gray-200 rounded mb-5', {
+          'border-red-500': errors.password
+        })}
         type='password'
-        {...register('password')}
+        {...register('password', {
+          required: 'La contraseña es obligatoria',
+          minLength: {
+            value: 6,
+            message: 'La contraseña debe tener al menos 6 caracteres'
+          }
+        })}
       />
 
       <button className='bg-white border-2 border-black text-black font-semibold py-3 px-6 rounded-lg hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg'>
