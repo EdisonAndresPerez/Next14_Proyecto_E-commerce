@@ -1,5 +1,6 @@
 export * from './product';
 export * from './address/set-user-address';
+export * from './address/delete-user-address';
 
 export * from './country/get-countries'
 

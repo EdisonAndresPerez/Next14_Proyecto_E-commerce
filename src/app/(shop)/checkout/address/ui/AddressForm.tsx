@@ -1,9 +1,11 @@
 'use client'
 
+import { setUserAddress, deleteUserAddress } from '@/actions'
 import type { Country } from '@/interfaces'
 import { useAddressStore } from '@/store/address/address.store'
 import clsx from 'clsx'
-import { useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 type FormInputs = {
@@ -24,6 +26,11 @@ interface Props {
 
 export default function AddressForm({ countries }: Props) {
   console.log('Countries received:', countries) // Para debug
+  
+  const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [message, setMessage] = useState('')
+  const [hasStoredAddress, setHasStoredAddress] = useState(false)
 
   const {
     handleSubmit,
@@ -34,19 +41,108 @@ export default function AddressForm({ countries }: Props) {
     defaultValues: {}
   })
 
+  const { data: session } = useSession({
+    required: true,
+  })
+
+
   const setAddress = useAddressStore(state => state.setAddress)
   const address = useAddressStore(state => state.address)
 
   useEffect(() => {
     if (address.firstName) {
       reset(address)
+      setHasStoredAddress(true)
     }
-  }, [])
+  }, [address, reset])
 
-  const onSubmit = (data: FormInputs) => {
-    console.log({ data })
+  const handleDeleteAddress = async () => {
+    if (!session?.user?.id) {
+      setMessage('Error: No se pudo identificar el usuario')
+      return
+    }
 
-    setAddress(data)
+    if (!confirm('¿Estás seguro de que deseas eliminar la dirección guardada?')) {
+      return
+    }
+
+    try {
+      setIsDeleting(true)
+      setMessage('')
+      
+      const result = await deleteUserAddress(session.user.id)
+      
+      if (result.ok) {
+        setMessage('Dirección eliminada exitosamente')
+        setHasStoredAddress(false)
+        // Limpiar el formulario
+        reset({
+          firstName: '',
+          lastName: '',
+          address: '',
+          address2: '',
+          codePostal: '',
+          city: '',
+          country: '',
+          phone: '',
+          rememberAddress: false
+        })
+        // Limpiar el store
+        setAddress({
+          firstName: '',
+          lastName: '',
+          address: '',
+          address2: '',
+          codePostal: '',
+          city: '',
+          country: '',
+          phone: '',
+          rememberAddress: false
+        })
+      } else {
+        setMessage(result.message || 'Error al eliminar la dirección')
+      }
+    } catch (error) {
+      console.error('Error deleting address:', error)
+      setMessage('Error inesperado al eliminar la dirección')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const onSubmit = async (data: FormInputs) => {
+    try {
+      setAddress(data)
+      const { rememberAddress, ...restAddress } = data
+
+      if (rememberAddress) {
+        if (!session?.user?.id) {
+          setMessage('Error: No se pudo identificar el usuario')
+          return
+        }
+
+        setIsLoading(true)
+        setMessage('')
+        
+        const result = await setUserAddress(restAddress, session.user.id)
+        
+        if (result.ok) {
+          setMessage('Dirección guardada exitosamente')
+          setHasStoredAddress(true)
+          // Aquí podrías redirigir al siguiente paso del checkout
+        } else {
+          setMessage(result.message || 'Error al guardar la dirección')
+        }
+      } else {
+        // Solo guardar en el store local, no en BD
+        setMessage('Dirección guardada temporalmente')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setMessage('Error inesperado al procesar la dirección')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -165,18 +261,41 @@ export default function AddressForm({ countries }: Props) {
         <span>¿Recordar direccion?</span>
       </div>
       <div className='flex flex-col mb-2 sm:mt-10'>
-        <button
-          disabled={!isValid}
-          type='submit'
-          //href='/checkout'
-          //className='btn-primary flex w-full sm:w-1/2 justify-center '
-          className={clsx({
-            'btn-primary': isValid,
-            'btn-disable': !isValid
-          })}
-        >
-          Siguiente
-        </button>
+        {message && (
+          <div className={clsx('mb-2 p-2 rounded text-sm', {
+            'bg-green-100 text-green-700': message.includes('exitosamente'),
+            'bg-red-100 text-red-700': message.includes('Error') || message.includes('error')
+          })}>
+            {message}
+          </div>
+        )}
+        
+        <div className='flex gap-2'>
+          <button
+            disabled={!isValid || isLoading || isDeleting}
+            type='submit'
+            className={clsx('flex-1', {
+              'btn-primary': isValid && !isLoading && !isDeleting,
+              'btn-disable': !isValid || isLoading || isDeleting
+            })}
+          >
+            {isLoading ? 'Guardando...' : 'Siguiente'}
+          </button>
+          
+          {hasStoredAddress && (
+            <button
+              disabled={isLoading || isDeleting}
+              type='button'
+              onClick={handleDeleteAddress}
+              className={clsx('px-4 py-2 rounded text-sm font-medium', {
+                'bg-red-500 text-white hover:bg-red-600': !isLoading && !isDeleting,
+                'bg-gray-300 text-gray-500 cursor-not-allowed': isLoading || isDeleting
+              })}
+            >
+              {isDeleting ? 'Eliminando...' : 'Eliminar Dirección'}
+            </button>
+          )}
+        </div>
       </div>
     </form>
   )

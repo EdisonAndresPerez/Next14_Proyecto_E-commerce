@@ -3,7 +3,7 @@
 import { registerUser, login } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
