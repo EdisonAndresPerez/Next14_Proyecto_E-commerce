@@ -1,82 +1,119 @@
 'use client'
 
-import clsx from 'clsx';
+import type { Country } from '@/interfaces'
+import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
 
-
-
 type FormInputs = {
-  firstName : string;
-  lastName: string;
-  address: string;
-  address2?: string;
-  codePostal : string;
-  city: string;
-  country: string;
-  phone: string;
-  remenberAddress: boolean;
-
-
+  firstName: string
+  lastName: string
+  address: string
+  address2?: string
+  codePostal: string
+  city: string
+  country: string
+  phone: string
+  remenberAddress: boolean
 }
 
+interface Props {
+  countries: Country[]
+}
 
-export default function AddressForm() {
-
-  const {handleSubmit, register, formState: {isValid}} = useForm<FormInputs>({
-    defaultValues: {
-
-    }
+export default function AddressForm({ countries }: Props) {
+  const {
+    handleSubmit,
+    register,
+    formState: { isValid }
+  } = useForm<FormInputs>({
+    defaultValues: {}
   })
 
   const onSubmit = (data: FormInputs) => {
-    console.log({data})
+    console.log({ data })
   }
 
-
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2'
+    >
       <div className='flex flex-col mb-2'>
         <span>Nombres</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('firstName', {required: true})} />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('firstName', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Apellidos</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('lastName', {required: true} ) } />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('lastName', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Dirección</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('address', {required: true} ) }  />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('address', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Dirección 2 (opcional)</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200'{...register('address2') } />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('address2')}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Código postal</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('codePostal', {required: true} ) }  />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('codePostal', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Ciudad</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200'{...register('city', {required: true} ) }  />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('city', { required: true })}
+        />
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>País</span>
-        <select className='p-2 border rounded-md bg-gray-200'{...register('country', {required: true} ) }>
+        <select
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('country', { required: true })}
+        >
           <option value=''>[ Seleccione ]</option>
-          <option value='CRI'>Costa Rica</option>
+          {countries.map(country => (
+            <option key={country.id} value={country.id}>
+              {country.name}
+            </option>
+          ))}
         </select>
       </div>
 
       <div className='flex flex-col mb-2'>
         <span>Teléfono</span>
-        <input type='text' className='p-2 border rounded-md bg-gray-200' {...register('phone', {required: true} ) }  />
+        <input
+          type='text'
+          className='p-2 border rounded-md bg-gray-200'
+          {...register('phone', { required: true })}
+        />
       </div>
 
       <div className='inline-flex items-center'>
@@ -86,7 +123,7 @@ export default function AddressForm() {
           data-ripple-dark='true'
         >
           <input
-            {...register('remenberAddress') }
+            {...register('remenberAddress')}
             type='checkbox'
             className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
             id='checkbox'
@@ -112,15 +149,14 @@ export default function AddressForm() {
         <span>¿Recordar direccion?</span>
       </div>
       <div className='flex flex-col mb-2 sm:mt-10'>
-
         <button
           disabled={!isValid}
           type='submit'
           //href='/checkout'
           //className='btn-primary flex w-full sm:w-1/2 justify-center '
           className={clsx({
-            'btn-primary' : isValid,
-            'btn-disable' : !isValid
+            'btn-primary': isValid,
+            'btn-disable': !isValid
           })}
         >
           Siguiente
