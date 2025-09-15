@@ -1,8 +1,9 @@
 'use client'
 
-import { registerUser } from '@/actions'
+import { registerUser, login } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
@@ -13,6 +14,9 @@ type FormInputs = {
 }
 
 export default function RegisterForm() {
+
+  const router = useRouter()
+
 
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -28,6 +32,12 @@ export default function RegisterForm() {
       return
     }
     console.log(resp)
+
+    await login(email.toLowerCase(), password)
+    router.replace('/')
+
+
+
   }
 
   return (

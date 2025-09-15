@@ -1,6 +1,7 @@
 'use server'
 
 import { signIn } from '@/auth.config'
+import { ok } from 'assert'
 import { CredentialsSignin } from 'next-auth'
 
 export async function authenticate(
@@ -20,4 +21,25 @@ export async function authenticate(
     }
     return 'error'
   }
+}
+
+
+export const login = async(email: string, password: string) => {
+
+  try {
+    
+    await signIn('credentials', {email, password})
+
+    return {ok: true,
+      message: 'Login correcto'
+    }
+
+  } catch (error) {
+      console.log(error)
+      return{
+        ok: false,
+        message: 'Error en el login'
+      }
+  }
+
 }
