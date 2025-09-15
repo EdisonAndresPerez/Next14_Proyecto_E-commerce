@@ -62,13 +62,33 @@ enum OrderStatus {
 // ===== MODELS =====
 
 
-model country {
+model Country {
     id        String  @id
     name      String
+    UserAddress UserAddress[]
 }
 
 
+model UserAddress {
+  id          String @id @default(uuid())
+  firstName   String
+  lastName    String
+  address     String
+  address2    String?
+  postalCode  String
+  city        String
+  phone       String
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  // Relaciones
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  @@map("user_addresses")
+}
 
 
 
@@ -84,9 +104,10 @@ model User {
   image     String?
 
   // Relaciones
-  addresses Address[]
-  orders    Order[]
-  cart      Cart?     // Relación uno a uno con Cart
+  addresses     Address[]
+  userAddresses UserAddress[]
+  orders        Order[]
+  cart          Cart?     // Relación uno a uno con Cart
 
   @@map("users")
 }
