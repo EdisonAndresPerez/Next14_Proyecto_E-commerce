@@ -1,7 +1,9 @@
 'use client'
 
+import { registerUser } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 type FormInputs = {
@@ -11,29 +13,25 @@ type FormInputs = {
 }
 
 export default function RegisterForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<FormInputs>()
+
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const { register,  handleSubmit,   formState: { errors } } = useForm<FormInputs>()
 
   const onSubmit: SubmitHandler<FormInputs> = async data => {
+    setErrorMessage('')
     const { name, email, password } = data
-    console.log({ name, email, password })
+    const resp = await registerUser(name, email, password)
+
+    if (!resp.ok) {
+      setErrorMessage(resp.message)
+      return
+    }
+    console.log(resp)
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
-      {/* 
-      {
-      errors.name?.type === 'required' &&(
-        <span className='text-red-500'>El nombre es obligatorio</span>
-      )
-   }
-
-  
-  */}
-
       <label htmlFor='email'>Nombre completo</label>
       <input
         autoFocus
@@ -73,6 +71,8 @@ export default function RegisterForm() {
           }
         })}
       />
+
+      <span className='text-red-500'>{errorMessage}</span>
 
       <button className='bg-white border-2 border-black text-black font-semibold py-3 px-6 rounded-lg hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg'>
         Crear Cuenta
