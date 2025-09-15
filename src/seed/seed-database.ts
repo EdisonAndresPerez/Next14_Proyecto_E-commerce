@@ -1,6 +1,7 @@
 import { prisma } from '../lib/prisma'
 import { initialData } from './seed'
 import { seedUsers } from './seed-users-database'
+import { countries } from './seed-countries'
 
 async function main() {
   try {
@@ -10,8 +11,23 @@ async function main() {
     await prisma.productImage.deleteMany();
     await prisma.productTag.deleteMany();
     await prisma.product.deleteMany();
+    await prisma.user.deleteMany();
+    await prisma.country.deleteMany();
     
-    // 2. Insertar productos
+    // 2. Insertar países
+    console.log('🌍 Insertando países...');
+    
+    for (const country of countries) {
+      await prisma.country.create({
+        data: {
+          id: country.id,
+          name: country.name
+        }
+      });
+    }
+    console.log(`✅ Países creados: ${countries.length}`);
+    
+    // 3. Insertar productos
     console.log('📦 Insertando productos...');
     
     const { products } = initialData;
@@ -20,7 +36,6 @@ async function main() {
       // Crear el producto
       const dbProduct = await prisma.product.create({
         data: {
-          id: undefined, // Dejar que Prisma genere el ID
           name: product.name,
           description: product.description,
           inStock: product.inStock,
@@ -55,7 +70,7 @@ async function main() {
       console.log(`✅ Producto creado: ${product.name}`);
     }
     
-    // 3. Crear usuarios
+    // 4. Crear usuarios
     console.log('👥 Insertando usuarios...');
     const usersResult = await seedUsers();
     if (usersResult.ok) {
@@ -65,6 +80,7 @@ async function main() {
     }
     
     console.log('🎉 Seed ejecutado correctamente');
+    console.log(`📊 Total países insertados: ${countries.length}`);
     console.log(`📊 Total productos insertados: ${products.length}`);
     
   } catch (error) {

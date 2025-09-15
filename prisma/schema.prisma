@@ -61,6 +61,17 @@ enum OrderStatus {
 
 // ===== MODELS =====
 
+
+model country {
+    id        String  @id
+    name      String
+}
+
+
+
+
+
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
