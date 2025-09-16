@@ -15,17 +15,19 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  useEffect(() => {
-    if (state === 'Success') {
-      console.log('✅ Login exitoso, redirigiendo...');
-      
+useEffect(() => {
+  if (state === 'Success') {
+    console.log('✅ Login exitoso, redirigiendo...');
     
-      const redirectTo = searchParams.get('redirectTo') || '/';
-      
-      console.log('Redirigiendo a:', redirectTo);
-      router.push(redirectTo);
-    }
-  }, [state, router, searchParams]);
+    const redirectTo = searchParams.get('redirectTo') || '/';
+    console.log('Redirigiendo a:', redirectTo);
+    
+    // Usar setTimeout para asegurar que el estado se actualice
+    setTimeout(() => {
+      router.replace(redirectTo);
+    }, 100);
+  }
+}, [state, router, searchParams]);
 
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true);

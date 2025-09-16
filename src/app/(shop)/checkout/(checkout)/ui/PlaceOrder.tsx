@@ -7,6 +7,8 @@ interface Props {
 }
 
 export function PlaceOrder({ className = '' }: Props) {
+
+
   const { address } = useAddressStore()
 
   // Verificar si la dirección está configurada (al menos firstName y address)
@@ -19,6 +21,11 @@ export function PlaceOrder({ className = '' }: Props) {
       </div>
     )
   }
+
+
+
+
+
 
   return (
     <div className={`space-y-2 ${className}`}>
