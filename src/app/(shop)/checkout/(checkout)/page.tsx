@@ -3,16 +3,17 @@
 import { initialData } from '@/seed/seed'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Contador } from '@/components'
 import { MdVerifiedUser, TfiMoney } from '@/components/icons'
+import { useCartStore } from '@/store/cart/cart-store'
+import { CartProduct } from '@/interfaces'
+import ProductsInCart from '../../cart/ui/ProductsInCart'
 
-const productsInCart = [
-  { ...initialData.products[0], quantity: 1 },
-  { ...initialData.products[10], quantity: 1 },
-  { ...initialData.products[3], quantity: 1 }
-]
 
 export default function CheckoutPage() {
+
+
+  const { cart, updateProductQuantity, removeProductFromCart } = useCartStore()
+  
   return (
     <div className='max-w-7xl mx-auto px-4 py-8'>
       <div className='mt-3 mb-6'>
@@ -28,48 +29,49 @@ export default function CheckoutPage() {
         {/* Lista de productos */}
         <div className='lg:col-span-2'>
           <div className='space-y-6'>
-            {productsInCart.map(product => (
-              <div
-                key={product.slug}
-                className='flex gap-4 p-4 border rounded-lg shadow-xl'
-              >
-                <Image
-                  src={`/products/${product.images[0]}`}
-                  alt={product.name}
-                  width={100}
-                  height={100}
-                  style={{
-                    width: '200px',
-                    height: '200px'
-                  }}
-                  className='rounded object-cover'
-                />
+ <>
+      {cart.map((product: CartProduct) => (
+        <div
+          key={product.slug}
+          className='flex gap-4 p-4 border rounded-lg shadow-xl mb-4'
+        >
+          <Image
+            src={`/products/${product.image}`}
+            alt={product.name}
+            width={100}
+            height={100}
+            style={{
+              width: '200px',
+              height: '200px'
+            }}
+            className='rounded object-cover'
+          />
 
-                <div className='flex-1'>
-                  <h3 className='font-semibold text-lg mb-2'>{product.name}</h3>
-                  <div className='flex items-center gap-2 mb-4'></div>
+          <div className='flex-1'>
+            <Link href={`/product/${product.slug}`} className='font-semibold text-lg mb-2 cursor-pointer'>{product.name}</Link>
 
-                  <Contador
-                    productId={product.slug}
-                    initialValue={product.quantity}
-                    maxValue={product.inStock}
-                    readOnly={true}
-                    showAddToCart={false}
-                    className='max-w-md'
-                  />
-                  <div className='flex items-center gap-2'>
-                    <TfiMoney className='text-green-600 text-xl' />
-                    <p className='text-green-600 font-bold text-xl'>
-                      {product.msrp} x {product.quantity}
-                    </p>
-                  </div>
-                  <p className='font-bold'>
-                    subTotal ${product.msrp * product.quantity}
-                  </p>
-                </div>
+            {/* Plataforma */}
+            {product.platform && (
+              <div className='mb-2'>
+                <span className='text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full uppercase font-bold'>
+                  {product.platform}
+                </span>
               </div>
-            ))}
+            )}
+
+            <div className='flex items-center gap-2 mb-4'>
+              <TfiMoney className='text-green-600 text-xl' />
+              <p className='text-green-600 font-bold text-xl'>
+                ${product.price}
+              </p>
+            </div>
+
           </div>
+        </div>
+      ))}
+    </>
+          </div>
+
         </div>
 
         {/* Resumen del pedido */}
@@ -99,9 +101,9 @@ export default function CheckoutPage() {
                 <span>Total:</span>
                 <span>
                   $
-                  {productsInCart
+                  {cart
                     .reduce(
-                      (sum, product) => sum + product.msrp * product.quantity,
+                      (sum, product) => sum + product.price * product.quantity,
                       0
                     )
                     .toFixed(2)}
@@ -129,9 +131,9 @@ export default function CheckoutPage() {
                 <span>Total:</span>
                 <span>
                   $
-                  {productsInCart
+                  {cart
                     .reduce(
-                      (sum, product) => sum + product.msrp * product.quantity,
+                      (sum, product) => sum + product.price * product.quantity,
                       0
                     )
                     .toFixed(2)}

@@ -47,7 +47,7 @@ export const createAddress = async (address: Address, userId: string) => {
       lastName: address.lastName,
       address: address.address,
       address2: address.address2,
-      postalCode: address.codePostal,
+      postalCode: address.postalCode,
       city: address.city,
       countryId: address.country, // El formulario ya envía el ID del país
       phone: address.phone,
@@ -86,7 +86,7 @@ export const updateAddress = async (addressId: string, address: Address, userId:
       lastName: address.lastName,
       address: address.address,
       address2: address.address2,
-      postalCode: address.codePostal,
+      postalCode: address.postalCode,
       city: address.city,
       countryId: address.country,
       phone: address.phone,

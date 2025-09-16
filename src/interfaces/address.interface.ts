@@ -3,7 +3,7 @@ export interface Address {
   lastName: string
   address: string
   address2?: string
-  codePostal: string
+  postalCode: string
   city: string
   country: string
   phone: string
