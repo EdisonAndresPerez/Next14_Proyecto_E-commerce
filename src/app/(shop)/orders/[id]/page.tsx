@@ -20,13 +20,18 @@ export default async function OrderPage({ params }: Props) {
     redirect('/')
   }
 
+  const address = order!.orderAddress;
+
+
+
+
   return (
     <div className='max-w-7xl mx-auto px-4 py-8'>
       <div className='mt-3 mb-6'>
         <h1 className='flex gap-2 items-center justify-center antialiased text-4xl font-semibold my-7'>
           <span>Orden #{order.id.split('-')[0]}</span>
           <span className='flex items-center'>
-            {order.isPaid ? (
+            {!order!.isPaid ? (
               <MdVerifiedUser className='text-green-600' />
             ) : (
               <MdVerifiedUser className='text-red-600' />
@@ -37,9 +42,9 @@ export default async function OrderPage({ params }: Props) {
         {/* Estado de pago */}
         <div className='flex justify-center mb-6'>
           <div className={`px-4 py-2 rounded-full text-white font-semibold ${
-            order.isPaid ? 'bg-green-600' : 'bg-red-600'
+            !order!.isPaid ? 'bg-green-600' : 'bg-red-600'
           }`}>
-            {order.isPaid ? '✅ Pagado' : '❌ Pendiente de pago'}
+            {!order!.isPaid ? '✅ Pagado' : '❌ Pendiente de pago'}
           </div>
         </div>
       </div>
@@ -158,12 +163,12 @@ export default async function OrderPage({ params }: Props) {
             <div className='flex justify-center text-center'>
               <div
                 className={`w-full p-4 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 ${
-                  order.isPaid
+                  !order!.isPaid
                     ? 'bg-green-600 text-white'
                     : 'bg-red-600 text-white'
                 }`}
               >
-                {order.isPaid ? 'Pagado' : 'Pendiente de pago'}
+                {!order!.isPaid ? 'Pagado' : 'Pendiente de pago'}
                 <FaAddressCard className='text-white text-lg' />
               </div>
             </div>

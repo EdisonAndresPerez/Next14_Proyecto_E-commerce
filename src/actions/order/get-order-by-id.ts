@@ -22,10 +22,13 @@ export const getOrderById = async (id: string) => {
           select: {
             price: true,
             quantity: true,
+
+
             product: {
               select: {
                 name: true,
                 slug: true,
+
                 images: {
                   select: {
                     url: true
@@ -45,6 +48,18 @@ export const getOrderById = async (id: string) => {
         message: 'Orden no encontrada'
       }
     }
+
+      if (session.user.role === 'user') {
+        if (session.user.id !== order.userId) {
+          return {
+            ok: false,
+            message: 'No tienes permisos para ver esta orden'
+          }
+        }
+      }
+
+
+
 
     // Verificar que la orden pertenece al usuario autenticado
     if (session.user.role !== 'admin' && order.userId !== session.user.id) {
