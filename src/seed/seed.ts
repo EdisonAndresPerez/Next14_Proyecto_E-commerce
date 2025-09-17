@@ -27,7 +27,7 @@ export const initialData: SeedData = {
       name: 'Spider-Man: Miles Morales Ultimate Edition',
       description: 'Experimenta el poder de Spider-Man con Miles Morales en esta edición definitiva que incluye el juego completo de Spider-Man Remastered.',
       images: [
-        '1740507-00-A_0_2000.jpg',
+        '1.png',
         '1740507-00-A_1.jpg',
       ],
       inStock: 12,
@@ -42,7 +42,7 @@ export const initialData: SeedData = {
       name: 'Demon\'s Souls',
       description: 'Experimenta el desafiante mundo de Demon\'s Souls completamente reconstruido desde cero para PlayStation 5 con gráficos impresionantes.',
       images: [
-        '1740250-00-A_0_2000.jpg',
+        '2.png',
         '1740250-00-A_1.jpg'
       ],
       inStock: 8,
@@ -167,8 +167,8 @@ export const initialData: SeedData = {
       name: 'Metal Gear Solid',
       description: 'El juego que revolucionó el género stealth. Infiltrate en Shadow Moses Island como Solid Snake.',
       images: [
-        '1657921-00-A_0_2000.jpg',
-        '1657921-00-A_1.jpg',
+        'metalGearSolid1.png',
+        'metalGear21.png',
       ],
       inStock: 8,
       msrp: 16.99,
@@ -178,12 +178,13 @@ export const initialData: SeedData = {
       platform: 'ps1',
       category: 'ps1'
     },
+
     {
       name: 'Resident Evil 2',
       description: 'Survival horror en su máxima expresión. Escapa de Raccoon City con Leon Kennedy o Claire Redfield.',
       images: [
-        '1657931-00-A_0_2000.jpg',
-        '1657931-00-A_1.jpg',
+        'resident2.png',
+        '2.png',
       ],
       inStock: 4,
       msrp: 18.99,
@@ -198,7 +199,7 @@ export const initialData: SeedData = {
       description: 'El marsupial más famoso de PlayStation en su aventura más épica a través del tiempo y el espacio.',
       images: [
         'crash.png',
-        '1657932-00-A_1.jpg',
+        'crash3disco1.png',
       ],
       inStock: 5,
       msrp: 12.99,
@@ -208,12 +209,13 @@ export const initialData: SeedData = {
       platform: 'ps1',
       category: 'ps1'
     },
+
     {
       name: 'Final Fantasy VII',
       description: 'El JRPG que cambió todo. Acompaña a Cloud y sus aliados en su lucha contra Shinra y Sephiroth en Midgar.',
       images: [
         'finalFantasyvii.png',
-        '1657916-00-A_1.jpg',
+        'finalFantasy.png',
       ],
       inStock: 8,
       msrp: 14.99,
@@ -223,12 +225,13 @@ export const initialData: SeedData = {
       platform: 'ps1',
       category: 'ps1'
     },
+
     {
       name: 'Tekken 3',
       description: 'El mejor juego de lucha de la era PlayStation. Combates intensos con los mejores luchadores del mundo.',
       images: [
         'tekken3.png',
-        '1633802-00-A_2.jpg',
+        'tekken3h1.png',
       ],
       inStock: 6,
       msrp: 13.99,
@@ -243,7 +246,7 @@ export const initialData: SeedData = {
       description: 'El marsupial más famoso de PlayStation en su aventura más épica a través del tiempo y el espacio. Edición de coleccionista.',
       images: [
         'crash.png',
-        '1657932-00-A_1.jpg',
+        'crash3disco1.png',
       ],
       inStock: 3,
       msrp: 15.99,
@@ -258,7 +261,7 @@ export const initialData: SeedData = {
       description: 'El mejor juego de lucha de la era PlayStation. Edición especial con personajes desbloqueados.',
       images: [
         'tekken3.png',
-        '1633802-00-A_0_2000.jpg',
+        'tekken3h1.png',
       ],
       inStock: 4,
       msrp: 16.99,
@@ -273,7 +276,7 @@ export const initialData: SeedData = {
       description: 'El JRPG que cambió todo. Versión internacional con contenido adicional y mejoras.',
       images: [
         'finalFantasyvii.png',
-        '1657916-00-A_1.jpg',
+        'finalFantasy.png',
       ],
       inStock: 6,
       msrp: 17.99,
@@ -287,8 +290,8 @@ export const initialData: SeedData = {
       name: 'Resident Evil 2 - Dual Shock Version',
       description: 'Survival horror en su máxima expresión. Versión mejorada con soporte para DualShock.',
       images: [
-        '1657931-00-A_0_2000.jpg',
-        '1657931-00-A_1.jpg',
+        'resident2.png',
+        '2.png',
       ],
       inStock: 5,
       msrp: 21.99,
