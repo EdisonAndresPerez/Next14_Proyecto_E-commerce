@@ -17,7 +17,8 @@ if (!session?.user) {
   )
 }
 
-const userAddress = await getUserAddress(session.user.id) ?? undefined
+const userAddressResult = await getUserAddress(session.user.id)
+const userAddress = userAddressResult && 'ok' in userAddressResult ? undefined : userAddressResult
 
 
 

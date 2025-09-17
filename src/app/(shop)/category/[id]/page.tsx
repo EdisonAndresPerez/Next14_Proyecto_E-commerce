@@ -87,15 +87,15 @@ export default async function CategoryPage({ params, searchParams }: Readonly<Pr
         className='mb-2' 
       />
 
-      <ProductGrid products={result.products} />
+      <ProductGrid products={result.products || []} />
       
       {/* Info de debugging/paginación */}
       <div className="text-center text-sm text-gray-600 mt-4">
-        Página {result.currentPage} de {result.totalPages} 
-        | Mostrando {result.products.length} de {result.totalCount} productos
+        Página {result.currentPage || 1} de {result.totalPages || 1} 
+        | Mostrando {(result.products || []).length} de {result.totalCount || 0} productos
       </div>
 
-      <Pagination totalPages={result.totalPages} />
+      <Pagination totalPages={result.totalPages || 1} />
     </>
   )
 }

@@ -9,6 +9,9 @@
     "lint": "next lint",
     "seed": "ts-node -r tsconfig-paths/register src/seed/seed-database.ts"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/seed/seed-database.ts"
+  },
   "dependencies": {
     "@prisma/client": "^6.16.1",
     "bcryptjs": "^3.0.2",

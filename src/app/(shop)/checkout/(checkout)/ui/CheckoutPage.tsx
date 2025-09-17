@@ -15,8 +15,6 @@ export default function CheckoutPage() {
   const { address } = useAddressStore()
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
-
-
   const router = useRouter()
 
   const isAddressConfigured =
@@ -25,18 +23,19 @@ export default function CheckoutPage() {
   const onPlaceOrder = async () => {
     setIsPlacingOrder(true)
 
-
-
     // Console.log de la dirección y productos
     console.log('=== DATOS DE LA ORDEN ===')
     console.log('Dirección:', address)
-    console.log('Productos:', cart.map(product => ({
-      nombre: product.name,
-      precio: product.price,
-      cantidad: product.quantity,
-      subtotal: (product.price * product.quantity).toFixed(2),
-      slug: product.slug
-    })))
+    console.log(
+      'Productos:',
+      cart.map(product => ({
+        nombre: product.name,
+        precio: product.price,
+        cantidad: product.quantity,
+        subtotal: (product.price * product.quantity).toFixed(2),
+        slug: product.slug
+      }))
+    )
     console.log('========================')
 
     await new Promise(resolve => setTimeout(resolve, 2000))

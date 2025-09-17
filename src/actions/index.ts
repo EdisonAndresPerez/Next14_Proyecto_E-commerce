@@ -6,6 +6,8 @@ export * from './address/delete-user-address';
 export * from './address/get-user-address';
 
 
+export * from './order/place-order';
+
 
 
 export * from './country/get-countries'

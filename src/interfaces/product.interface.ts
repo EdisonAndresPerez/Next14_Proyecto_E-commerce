@@ -29,10 +29,10 @@ export interface CartProduct {
 export type ValidGenres = 'action'|'adventure'|'sports'|'rpg'|'shooter'|'racing'|'strategy'|'simulation'|'horror'|'platformer'|'puzzle'|'fighting'|'stealth'|'other';
 
 // Plataformas disponibles
-export type ValidPlatforms = 'ps5'|'ps4'|'ps3'|'ps2'|'ps1';
+export type ValidPlatforms = 'ps5'|'ps4'|'ps3'|'ps2'|'ps1'|'xbox_series_x'|'xbox_series_s'|'xbox_one'|'xbox_360'|'nintendo_switch'|'nintendo_3ds'|'pc'|'steam'|'epic_games';
 
 // Categorías para navegación
-export type ValidCategories = 'ps5'|'ps2'|'ps1';
+export type ValidCategories = 'ps5'|'ps2'|'ps1'|'xbox'|'nintendo'|'pc'|'retro';
 
 
 
