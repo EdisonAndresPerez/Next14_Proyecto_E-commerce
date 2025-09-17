@@ -46,14 +46,19 @@ const productsToOrder = cart.map(product => ({
 
 
 
-    const resp  = await PlaceOrder(productsToOrder, address)
+    const resp = await PlaceOrder(productsToOrder, address)
     console.log(resp)
 
-
-    await new Promise(resolve => setTimeout(resolve, 2000))
-
-    setIsPlacingOrder(false)
-    router.push('/orders/12345')
+    if (resp.ok) {
+      // Si la orden se creó exitosamente, redirigir a la página de la orden
+      router.push(`/orders/${resp.order?.id}`)
+    } else {
+      // Si hubo un error, mostrar mensaje o manejar error
+      console.error('Error al crear la orden:', resp.message)
+      setIsPlacingOrder(false)
+      // Aquí podrías mostrar un toast o mensaje de error
+      alert(`Error: ${resp.message}`)
+    }
   }
 
   return (
