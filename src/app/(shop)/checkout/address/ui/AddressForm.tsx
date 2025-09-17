@@ -121,8 +121,8 @@ export default function AddressForm({
 
   const onSubmit = async (data: FormInputs) => {
     try {
-      setAddress(data)
       const { rememberAddress, ...restAddress } = data
+      setAddress(data)
 
       if (rememberAddress) {
         if (!session?.user?.id) {

@@ -1,36 +1,48 @@
 'use client'
 
+import { useState } from 'react'
+
 import Link from 'next/link'
 import { MdVerifiedUser } from '@/components/icons'
 import { useCartStore } from '@/store/cart/cart-store'
 import { useAddressStore } from '@/store/address/address.store'
 import { ProductCard, OrderSummary } from '@/components'
 import { PlaceOrder } from './PlaceOrder'
+import { useRouter } from 'next/navigation'
 
 export default function CheckoutPage() {
   const { cart } = useCartStore()
   const { address } = useAddressStore()
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
-  // Verificar si la dirección está configurada
-  const isAddressConfigured = address.firstName && address.address && address.city && address.country
 
-  if (cart.length === 0) {
-    return (
-      <div className='max-w-7xl mx-auto px-4 py-8'>
-        <div className='text-center py-8'>
-          <h1 className='text-2xl font-bold mb-4'>Tu carrito está vacío</h1>
-          <p className='text-gray-500 mb-4'>
-            Agrega algunos productos para continuar con tu compra
-          </p>
-          <Link
-            href='/'
-            className='bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors'
-          >
-            Continuar comprando
-          </Link>
-        </div>
-      </div>
-    )
+
+  const router = useRouter()
+
+  const isAddressConfigured =
+    address.firstName && address.address && address.city && address.country
+
+  const onPlaceOrder = async () => {
+    setIsPlacingOrder(true)
+
+
+
+    // Console.log de la dirección y productos
+    console.log('=== DATOS DE LA ORDEN ===')
+    console.log('Dirección:', address)
+    console.log('Productos:', cart.map(product => ({
+      nombre: product.name,
+      precio: product.price,
+      cantidad: product.quantity,
+      subtotal: (product.price * product.quantity).toFixed(2),
+      slug: product.slug
+    })))
+    console.log('========================')
+
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    setIsPlacingOrder(false)
+    router.push('/orders/12345')
   }
 
   return (
@@ -48,14 +60,16 @@ export default function CheckoutPage() {
         {/* Lista de productos */}
         <div className='lg:col-span-2'>
           <div className='space-y-6'>
-            <h2 className='text-xl font-semibold mb-4'>Productos en tu pedido</h2>
-                        <Link
+            <h2 className='text-xl font-semibold mb-4'>
+              Productos en tu pedido
+            </h2>
+            <Link
               href='/cart'
               className='underline mb-5 text-blue-600 hover:text-blue-800'
             >
               Editar productos
             </Link>
-            {cart.map((product) => (
+            {cart.map(product => (
               <ProductCard
                 key={product.slug}
                 product={product}
@@ -79,33 +93,24 @@ export default function CheckoutPage() {
                 ⚠️ Configurar dirección de entrega
               </Link>
             )}
-            
             <hr className='my-4' />
-
             {/* Resumen del pedido */}
             <h3 className='text-xl font-semibold mb-4'>Resumen del pedido</h3>
             <OrderSummary cart={cart} className='mb-4' />
-
             <div className='flex justify-center text-center'>
-              <Link
-                href='/orders/12345'
+              <button
+                onClick={onPlaceOrder}
+                disabled={!isAddressConfigured || isPlacingOrder}
                 className={`w-full p-4 py-3 rounded-lg font-semibold transition-colors mx-auto flex items-center justify-center gap-2 ${
-                  isAddressConfigured
+                  isAddressConfigured && !isPlacingOrder
                     ? 'bg-green-600 text-white hover:bg-green-700'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
-                onClick={(e) => {
-                  if (!isAddressConfigured) {
-                    e.preventDefault()
-                    alert('Por favor configura tu dirección de entrega antes de continuar')
-                  }
-                }}
               >
-                Comprar
+                {isPlacingOrder ? 'Procesando...' : 'Comprar'}
                 <MdVerifiedUser className='text-current text-lg' />
-              </Link>
-            </div>
-
+              </button>
+            </div>{' '}
             {/* Términos y condiciones */}
             <div className='mt-4 flex items-start gap-2'>
               <input
