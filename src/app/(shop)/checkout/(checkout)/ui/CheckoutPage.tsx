@@ -7,7 +7,7 @@ import { MdVerifiedUser } from '@/components/icons'
 import { useCartStore } from '@/store/cart/cart-store'
 import { useAddressStore } from '@/store/address/address.store'
 import { ProductCard, OrderSummary } from '@/components'
-import { PlaceOrder } from './PlaceOrder'
+import { PlaceOrder } from '@/actions'
 import { useRouter } from 'next/navigation'
 
 export default function CheckoutPage() {
@@ -37,6 +37,18 @@ export default function CheckoutPage() {
       }))
     )
     console.log('========================')
+
+const productsToOrder = cart.map(product => ({
+  productId: product.id,  
+  quantity: product.quantity,
+  price: product.price
+}))
+
+
+
+    const resp  = await PlaceOrder(productsToOrder, address)
+    console.log(resp)
+
 
     await new Promise(resolve => setTimeout(resolve, 2000))
 
@@ -83,7 +95,15 @@ export default function CheckoutPage() {
           <div className='bg-gray-50 rounded-xl shadow-xl p-7'>
             {/* Dirección de entrega */}
             <h3 className='text-xl font-semibold mb-4'>Dirección de entrega</h3>
-            <PlaceOrder className='mb-4' />
+            <div className='mb-4 p-3 bg-white rounded-lg border'>
+              <p className='text-sm text-gray-600'>
+                <strong>{address.firstName} {address.lastName}</strong><br/>
+                {address.address} {address.address2}<br/>
+                {address.city}, {address.postalCode}<br/>
+                {address.country}<br/>
+                Tel: {address.phone}
+              </p>
+            </div>
             {!isAddressConfigured && (
               <Link
                 href='/checkout/address'

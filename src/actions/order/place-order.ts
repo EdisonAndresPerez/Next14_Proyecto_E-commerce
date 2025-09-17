@@ -10,7 +10,7 @@ interface ProductToOrder {
 }
 
 export const PlaceOrder = async (
-  productIds: ProductToOrder,
+  productIds: ProductToOrder[],
   address: Address
 ) => {
   const session = await auth()
@@ -18,10 +18,17 @@ export const PlaceOrder = async (
 
   if (!userId) {
     return {
-      ok: 'false',
+      ok: false,
       message: 'Usuario no autenticado'
     }
   }
 
   console.log({ productIds, address, userId })
+  
+  // TODO: Implementar lógica para crear la orden
+  return {
+    ok: true,
+    message: 'Orden creada exitosamente',
+    orderId: '12345' // Temporal
+  }
 }
