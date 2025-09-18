@@ -13,6 +13,7 @@ export * from './order/get-paginated-orders';
 
 
 export * from './user/get-paginater-users'
+export * from './user/change-user-role'
 
 
 
