@@ -5,9 +5,16 @@ import { countries } from './seed-countries'
 
 async function main() {
   try {
-    // 1. Limpiar la base de datos
+    // 1. Limpiar la base de datos en el orden correcto
     console.log('🧹 Limpiando base de datos...');
     
+    // Eliminar primero las tablas que dependen de otras
+    await prisma.orderItem.deleteMany();
+    await prisma.orderAddress.deleteMany();
+    await prisma.order.deleteMany();
+    await prisma.cartItem.deleteMany();
+    await prisma.cart.deleteMany();
+    await prisma.userAddress.deleteMany();
     await prisma.productImage.deleteMany();
     await prisma.productTag.deleteMany();
     await prisma.product.deleteMany();

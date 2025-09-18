@@ -35,6 +35,7 @@ export default async function Home({ searchParams }: Props) {
 
       <ProductGrid products={result.products} />
       
+      
       {/* Info de debugging */}
       <div className="text-center text-sm text-gray-600 mt-4">
         Página {result.currentPage} de {result.totalPages} 

@@ -80,9 +80,6 @@ export const Sidebar = () => {
         </Link>
 
 
-
-
-
         <Link
           href='/orders'
           onClick={() => closeMenu()}
@@ -91,13 +88,6 @@ export const Sidebar = () => {
           <IoTicketOutline size={30} />
           <span className='ml-3 text-xl'>Ordenes</span>
         </Link>
-
-
-
-
-
-
-
 
 
         {isAuthenticated && (
@@ -126,8 +116,6 @@ export const Sidebar = () => {
 
         {/* Line Separator */}
         <div className='w-full h-px bg-gray-200 my-10' />
-
-        
 
         { isAdmin && isAuthenticated && (
           <>

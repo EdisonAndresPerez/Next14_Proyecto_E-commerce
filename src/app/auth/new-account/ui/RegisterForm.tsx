@@ -3,9 +3,9 @@
 import { registerUser, login } from '@/actions'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type FormInputs = {
   name: string
@@ -14,13 +14,18 @@ type FormInputs = {
 }
 
 export default function RegisterForm() {
-
   const router = useRouter()
-
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  const { register,  handleSubmit,   formState: { errors } } = useForm<FormInputs>()
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') || '/'
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormInputs>()
 
   const onSubmit: SubmitHandler<FormInputs> = async data => {
     setErrorMessage('')
@@ -34,10 +39,7 @@ export default function RegisterForm() {
     console.log(resp)
 
     await login(email.toLowerCase(), password)
-    router.replace('/')
-
-
-
+    window.location.href = redirectTo
   }
 
   return (
@@ -95,7 +97,7 @@ export default function RegisterForm() {
         <div className='flex-1 border-t border-gray-500'></div>
       </div>
 
-      <Link href='/auth/login' className='btn-secondary text-center'>
+      <Link  href={`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`}  className='btn-secondary text-center'>
         Iniciar sesión
       </Link>
     </form>

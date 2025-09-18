@@ -22,8 +22,6 @@ export default function CartPage() {
   }
 
   return (
-
-
     <div className='max-w-7xl mx-auto px-4 py-8 '>
       <div className='flex items-center gap-4 mb-6 '>
         <Title title='Mis Compras' showIcon={false} className='mb-0' />
@@ -32,7 +30,6 @@ export default function CartPage() {
       <hr className='mb-6 bg-slate-950 h-1 border-0' />
 
       <div className='grid grid-cols-2 lg:grid-cols-3 gap-10'>
-
         {/* Carrito - Items */}
         <div className='lg:col-span-2'>
           <div className='flex flex-col mt-5 mb-8'>
@@ -53,14 +50,9 @@ export default function CartPage() {
           </div>
         </div>
 
-        
         {/* Resumen del pedido */}
         <div className='lg:col-span-1'>
-
-        <ProductsSummary/>
-
-
-
+          <ProductsSummary />
         </div>
       </div>
     </div>

@@ -2,23 +2,20 @@ import { Title } from '@/components'
 import AddressForm from './ui/AddressForm'
 import { getCountries, getUserAddress } from '@/actions'
 import { auth } from '@/auth.config'
+import { redirect } from 'next/navigation'
 
 export default async function AddressPage() {
   const countries = await getCountries()
 
+  const session = await auth()
 
-const session = await auth()
+  if (!session?.user) {
+    // Redirigir al login con redirectTo para volver aquí después del login
+    redirect('/auth/login?redirectTo=%2Fcheckout%2Faddress')
+  }
 
-if (!session?.user) {
-  return (
-    <div className="text-center py-10">
-      <Title title='Error' subtitle='Debes iniciar sesión para ver esta página' />
-    </div>
-  )
-}
-
-const userAddressResult = await getUserAddress(session.user.id)
-const userAddress = userAddressResult && 'ok' in userAddressResult ? undefined : userAddressResult
+  const userAddressResult = await getUserAddress(session.user.id)
+  const userAddress = userAddressResult && 'ok' in userAddressResult ? undefined : userAddressResult
 
 
 
@@ -27,7 +24,7 @@ const userAddress = userAddressResult && 'ok' in userAddressResult ? undefined :
       <div className='w-full  xl:w-[1000px] flex flex-col justify-center text-left'>
         <Title title='Dirección' subtitle='Dirección de entrega' />
 
-        <AddressForm countries={countries}   userStoredAddress={userAddress}  />
+        <AddressForm countries={countries} userStoredAddress={userAddress} />
       </div>
     </div>
   )

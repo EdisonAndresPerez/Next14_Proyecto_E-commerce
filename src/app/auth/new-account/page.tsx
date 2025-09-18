@@ -70,7 +70,6 @@ export default function LoginPage() {
       </div>
 
       <RegisterForm />
-
     </main>
   )
 }
