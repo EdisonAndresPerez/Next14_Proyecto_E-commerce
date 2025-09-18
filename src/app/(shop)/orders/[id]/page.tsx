@@ -12,18 +12,15 @@ interface Props {
 
 export default async function OrderPage({ params }: Props) {
   const { id } = params
-  
+
   // Obtener la orden desde la base de datos
   const { ok, order } = await getOrderById(id)
-  
+
   if (!ok || !order) {
     redirect('/')
   }
 
-  const address = order!.orderAddress;
-
-
-
+  const address = order!.orderAddress
 
   return (
     <div className='max-w-7xl mx-auto px-4 py-8'>
@@ -31,31 +28,40 @@ export default async function OrderPage({ params }: Props) {
         <h1 className='flex gap-2 items-center justify-center antialiased text-4xl font-semibold my-7'>
           <span>Orden #{order.id.split('-')[0]}</span>
           <span className='flex items-center'>
-            {!order!.isPaid ? (
+            {order.isPaid ? (
               <MdVerifiedUser className='text-green-600' />
             ) : (
               <MdVerifiedUser className='text-red-600' />
             )}
           </span>
         </h1>
-        
+
         {/* Estado de pago */}
         <div className='flex justify-center mb-6'>
-          <div className={`px-4 py-2 rounded-full text-white font-semibold ${
-            !order!.isPaid ? 'bg-green-600' : 'bg-red-600'
-          }`}>
-            {!order!.isPaid ? '✅ Pagado' : '❌ Pendiente de pago'}
+          <div
+            className={`px-4 py-2 rounded-full text-white font-semibold ${
+              order.isPaid ? 'bg-green-600' : 'bg-red-600'
+            }`}
+          >
+            {order.isPaid ? '✅ Pagado' : '❌ Pendiente de pago'}
           </div>
         </div>
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
-        {/* Lista de productos */}
         <div className='lg:col-span-2'>
           <div className='flex items-center gap-3 mb-6'>
-            <div className='w-1 h-8 bg-green-600 rounded'></div>
-            <h2 className='text-2xl font-bold text-gray-800'>
-              Productos comprados
+            <div
+              className={`w-1 h-8 rounded ${
+                order.isPaid ? 'bg-green-600' : 'bg-red-600'
+              }`}
+            ></div>
+            <h2
+              className={`text-2xl font-bold ${
+                order.isPaid ? 'text-green-600' : 'text-red-600'
+              }`}
+            >
+              🛒 Productos comprados
             </h2>
           </div>
 
@@ -63,7 +69,7 @@ export default async function OrderPage({ params }: Props) {
             {order.orderItems.map((item, index) => {
               // Validación de imagen
               const imageSrc = item.product.image || '/imgs/starman_750x750.png'
-              
+
               return (
                 <div
                   key={`${item.product.slug}-${index}`}
@@ -82,7 +88,9 @@ export default async function OrderPage({ params }: Props) {
                   />
 
                   <div className='flex-1'>
-                    <h3 className='font-semibold text-lg mb-2'>{item.product.name}</h3>
+                    <h3 className='font-semibold text-lg mb-2'>
+                      {item.product.name}
+                    </h3>
 
                     <div className='flex items-center gap-2'>
                       <TfiMoney className='text-green-600 text-xl' />
@@ -112,7 +120,8 @@ export default async function OrderPage({ params }: Props) {
                   </div>
                   <div>
                     <span className='font-semibold'>
-                      {order.orderAddress.firstName} {order.orderAddress.lastName}
+                      {order.orderAddress.firstName}{' '}
+                      {order.orderAddress.lastName}
                     </span>
                   </div>
                   <div>
@@ -128,10 +137,14 @@ export default async function OrderPage({ params }: Props) {
                     <span>{order.orderAddress.country}</span>
                   </div>
                   <div>
-                    <span className='font-bold'>CP: {order.orderAddress.postalCode}</span>
+                    <span className='font-bold'>
+                      CP: {order.orderAddress.postalCode}
+                    </span>
                   </div>
                   <div>
-                    <span className='font-bold'>TEL: {order.orderAddress.phone}</span>
+                    <span className='font-bold'>
+                      TEL: {order.orderAddress.phone}
+                    </span>
                   </div>
                 </div>
                 <hr className='my-4' />
@@ -163,21 +176,27 @@ export default async function OrderPage({ params }: Props) {
             <div className='flex justify-center text-center'>
               <div
                 className={`w-full p-4 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 ${
-                  !order!.isPaid
+                  order.isPaid
                     ? 'bg-green-600 text-white'
                     : 'bg-red-600 text-white'
                 }`}
               >
-                {!order!.isPaid ? 'Pagado' : 'Pendiente de pago'}
+                {order.isPaid ? 'Pagado' : 'Pendiente de pago'}
                 <FaAddressCard className='text-white text-lg' />
               </div>
             </div>
-            
+
             {/* Información adicional */}
             <div className='mt-4 text-sm text-gray-600'>
-              <p>Fecha de orden: {new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
+              <p>
+                Fecha de orden:{' '}
+                {new Date(order.createdAt).toLocaleDateString('es-ES')}
+              </p>
               {order.paidAt && (
-                <p>Fecha de pago: {new Date(order.paidAt).toLocaleDateString('es-ES')}</p>
+                <p>
+                  Fecha de pago:{' '}
+                  {new Date(order.paidAt).toLocaleDateString('es-ES')}
+                </p>
               )}
             </div>
           </div>

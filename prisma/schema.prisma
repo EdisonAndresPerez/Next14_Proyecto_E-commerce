@@ -212,6 +212,7 @@ model Order {
   orderItems  OrderItem[]
   orderAddress OrderAddress?
 
+
   @@map("orders")
 }
 
