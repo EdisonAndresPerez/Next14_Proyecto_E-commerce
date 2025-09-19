@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎮 **E-commerce de Videojuegos - Next.js 14**
 
-## Getting Started
+Una tienda online moderna especializada en videojuegos retro y actuales para consolas PlayStation.
 
-First, run the development server:
+## 🚀 **Ejecutar en Desarrollo**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### **1. Clonar el repositorio**
+git clone https://github.com/EdisonAndresPerez/Next14_Proyecto_E-commerce.git
+
+
+
+### **2. Configurar variables de entorno**
+# Crear una copia del archivo de ejemplo
+.env_prueba  pasarlo a .env
+
+# Editar las variables de entorno según tu configuración
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **3. Instalar dependencias**
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **4. Levantar la base de datos**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### **🐳 Con Docker (Recomendado)**
+```bash
+# Levantar PostgreSQL con Docker Compose
+docker compose up -d
 
-## Learn More
+# Verificar que la base de datos esté corriendo
+docker compose ps
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### **🔧 Configurar esquema y datos iniciales**
+# Generar el cliente de Prisma
+npx prisma generate
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Sincronizar el esquema con la base de datos
+npx prisma db push
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Poblar la base de datos con datos iniciales
+npm run seed
+```
 
-## Deploy on Vercel
+### **5. Ejecutar la aplicación**
+npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+La aplicación estará disponible en: **http://localhost:3000**
+
+---
+
+## 🛠️ **Comandos Útiles**
+
+### **Base de Datos**
+# Ver la base de datos en Prisma Studio
+npx prisma studio
+
+# Resetear la base de datos (CUIDADO: Borra todos los datos)
+npx prisma db reset
+
+# Crear una nueva migración
+npx prisma migrate dev --name [nombre_migracion]
+```
+
+### **Docker**
+# Detener la base de datos
+docker compose down
+
+# Ver logs de la base de datos
+docker compose logs postgres-db
+
+# Limpiar volúmenes (CUIDADO: Borra todos los datos)
+docker compose down -v
+
+
+## 📦 **Stack Tecnológico**
+
+- **Framework**: Next.js 14 (App Router)
+- **Base de Datos**: PostgreSQL + Prisma ORM
+- **Autenticación**: NextAuth.js v5
+- **Estilos**: Tailwind CSS
+- **Estado Global**: Zustand
+- **Formularios**: React Hook Form + Zod
+- **Contenedores**: Docker + Docker Compose
+
+---
+
+## 🔐 **Usuarios de Prueba**
+
+Después de ejecutar el seed, puedes usar estos usuarios:
+
+| Email | Contraseña | Rol |
+|-------|------------|-----|
+| `admin@admin.com` | `admin123` | Admin |
+| `user@user.com` | `user123` | Usuario |
+| `edison@test.com` | `edison123` | Admin | 

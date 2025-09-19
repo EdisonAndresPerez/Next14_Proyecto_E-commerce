@@ -47,7 +47,9 @@ export const TopMenu = () => {
         hover:bg-gray-100
         after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-black
         after:transition-all after:duration-300
-        ${pathname === '/category/ps5' ? 'after:w-full' : 'after:w-0'}
+                ${pathname.startsWith('/category/ps5') || pathname.includes('_ps5') 
+        ? 'after:w-full'
+         : 'after:w-0'}
       `}
         >
           Games PS5
@@ -60,7 +62,9 @@ export const TopMenu = () => {
         hover:bg-gray-100
         after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-black
         after:transition-all after:duration-300
-        ${pathname === '/category/ps2' ? 'after:w-full' : 'after:w-0'}
+             ${pathname.startsWith('/category/ps2') || pathname.includes('_ps2') 
+        ? 'after:w-full'
+         : 'after:w-0'}
       `}
         >
           Games PS2
@@ -73,7 +77,9 @@ export const TopMenu = () => {
         hover:bg-gray-100
         after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-black
         after:transition-all after:duration-300
-        ${pathname === '/category/ps1' ? 'after:w-full' : 'after:w-0'}
+        ${pathname.startsWith('/category/ps1') || pathname.includes('_ps1') 
+        ? 'after:w-full'
+         : 'after:w-0'}
       `}
         >
           Games PS1
