@@ -4,6 +4,7 @@ import { Product, Category, ValidGenres, ValidPlatforms } from '@/interfaces'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { createUpdateProduct } from '@/actions'
 
 interface Props {
   product: Product
@@ -105,9 +106,14 @@ export const ProductForm = ({ product, categories }: Props) => {
     setSubmitMessage('')
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Llamar al server action
+      const result = await createUpdateProduct(formData)
 
-      setSubmitMessage('✅ Producto guardado exitosamente!')
+      if (result.ok) {
+        setSubmitMessage(`✅ ${result.message}`)
+      } else {
+        setSubmitMessage(`❌ ${result.message}`)
+      }
     } catch (error) {
       console.error('Error:', error)
       setSubmitMessage('❌ Error al guardar el producto')
