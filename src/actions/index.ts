@@ -1,5 +1,6 @@
 export * from './product';
 
+export * from './category/get-categories';
 
 export * from './address/set-user-address';
 export * from './address/delete-user-address';
@@ -16,7 +17,7 @@ export * from './user/get-paginater-users'
 export * from './user/change-user-role'
 
 
-export * from './categories/get-categories'
+export * from './product/create-update-product';
 
 
 

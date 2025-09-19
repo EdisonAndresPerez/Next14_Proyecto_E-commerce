@@ -12,23 +12,43 @@ interface Props {
 export default async function page({ params }: Props) {
   const { slug } = params
 
-  const [product, categories] = await Promise.all([
+  const [productResult, categories] = await Promise.all([
     getProductBySlug(slug),
     getCategories()
   ])
 
+  // Si slug es 'new', crear un producto vacío
+  if (slug === 'new') {
+    const emptyProduct = {
+      name: '',
+      slug: '',
+      description: '',
+      msrp: 0,
+      inStock: 0,
+      genre: 'action' as const,
+      platform: 'ps5' as const,
+      category: 'ps5' as const,
+      tags: [],
+      images: []
+    };
 
-  if (!product) {
+    return (
+      <>
+        <Title title="Nuevo producto" />
+        <ProductForm product={emptyProduct} categories={categories} />
+      </>
+    );
+  }
+
+  // Para productos existentes, verificar que el resultado sea exitoso
+  if (!productResult.ok || !productResult.product) {
     redirect('/admin/products')
   }
 
-  const title = slug === 'new' ? 'Editar producto' : 'Nuevo producto'
-
   return (
     <>
-      <Title title={title} />
-
-      <ProductForm product={product} categories={categories} />
+      <Title title="Editar producto" />
+      <ProductForm product={productResult.product} categories={categories} />
     </>
   )
 }

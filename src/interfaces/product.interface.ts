@@ -11,6 +11,7 @@ export interface Product {
   genre: ValidGenres;
   platform: ValidPlatforms; 
   category: ValidCategories; 
+  categoryId?: string; // Agregamos categoryId para formularios de admin
 }
 
 export interface CartProduct {

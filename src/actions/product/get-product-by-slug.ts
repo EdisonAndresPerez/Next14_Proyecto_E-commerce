@@ -15,7 +15,8 @@ export const getProductBySlug = async (slug: string) => {
         description: true,
         images: {
           select: {
-            url: true
+            url: true,
+            id: true
           }
         },
         inStock: true,
@@ -28,7 +29,12 @@ export const getProductBySlug = async (slug: string) => {
         },
         genre: true,
         platform: true,
-        category: true,
+        categoryId: true,
+        category: {
+          select: {
+            name: true
+          }
+        },
         isActive: true,
       }
     });
@@ -44,7 +50,9 @@ export const getProductBySlug = async (slug: string) => {
     const transformedProduct = {
       ...product,
       images: product.images.map(img => img.url),
-      tags: product.tags.map(tag => tag.name)
+      tags: product.tags.map(tag => tag.name),
+      category: product.category.name as any, // Mantener compatibilidad con ValidCategories
+      categoryId: product.categoryId // Incluir categoryId para el formulario de admin
     };
 
     return {
