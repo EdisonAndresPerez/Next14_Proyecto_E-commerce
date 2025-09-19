@@ -120,7 +120,8 @@ export const Sidebar = () => {
         { isAdmin && isAuthenticated && (
           <>
           <Link
-            href='/'
+            href='/admin/products'
+             onClick={() => closeMenu()}
             className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
           >
             <IoShirtOutline size={30} />

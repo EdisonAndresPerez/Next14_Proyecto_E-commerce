@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default async function Home({ searchParams }: Props) {
+  
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   
   // Obtener productos de la página solicitada
