@@ -16,6 +16,9 @@ export * from './user/get-paginater-users'
 export * from './user/change-user-role'
 
 
+export * from './categories/get-categories'
+
+
 
 export * from './country/get-countries'
 

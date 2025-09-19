@@ -46,7 +46,7 @@ enum Platform {
   nintendo_3ds
 }
 
-enum Category {
+enum CategoryEnum {
   ps5
   ps2
   ps1
@@ -121,27 +121,29 @@ model User {
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   name        String
   description String
   inStock     Int
   msrp        Float
-  slug        String   @unique
+  slug        String       @unique
   genre       Genre
-  category    Category
+  categoryId  String
   platform    Platform
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   // Relaciones
   images     ProductImage[]
   tags       ProductTag[]
   orderItems OrderItem[]
   cartItems  CartItem[]
+  category   Category      @relation(fields: [categoryId], references: [id])
 
   @@map("products")
 }
+
 
 model ProductImage {
   id        String  @id @default(uuid())
@@ -246,4 +248,21 @@ model OrderAddress {
   countryId String
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String  @unique
+}
+
+
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  displayName String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones con productos
+  products    Product[]
+
+  @@map("categories")
 }
