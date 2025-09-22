@@ -131,6 +131,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       <div className='w-full'>
         <div className='flex flex-col mb-2'>
           <span>Nombre del Juego</span>
+          <h1>hola mundooooo</h1>
           <input
             type='text'
             className='p-2 border rounded-md bg-gray-200'
